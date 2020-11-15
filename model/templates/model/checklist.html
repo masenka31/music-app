@@ -207,12 +207,6 @@
                     autocomplete(document.getElementById("myInput"), artist);
                 </script>
 
-                <p>Overview:</p>
-                <p>Artists: {{ chosen_artists }}</p>
-                <p>Songs: {{ chosen_songs }}</p>
-                <p>Ids: {{ chosen_ids }}</p>
-                <p>Context keys: {{ keys }}
-
                 {% if pasted %}
                 <p id="songs">Songs from artists: <strong>{{ chosen_artists }}</strong></p>
                 <form method="post" action="">
@@ -231,15 +225,6 @@
                 {% if ready %}
                 <p> Here are all the songs you've chosen so far:</p>
                 <p>
-                    <!--{% for i in chosenSongs %} PODÍVEJ SE TADY JESTLI TO DÁVÁ TO STEJNÉ! A VYPRINTUJ SI I UMĚLCE NA TÉHLE STRÁNCE
-                <li>{{ i }}</li>
-                {% endfor %}
-                </p> 
-                {% for i in chosenSongs %}
-                <li>{{ i }}</li>
-                {% endfor %}
-                </p> -->
-                <p>
                     {% for i in chosen_songs %}
                     {% for j in i%}
                     <li>{{ j }}</li>
@@ -247,6 +232,7 @@
                     {% endfor %}
                 </p>
                 {% endif %}
+
 
                 {% if ready %}
                 <p>

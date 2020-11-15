@@ -32,6 +32,7 @@ def checklist(request):
     # přidám pages, které tam budou vždy
     context = pages
     # a JSON dump pro JS
+    # tohle taky zůstane v contextu
     context['artists_autocomplete'] = art_list # tohle se posílá JS
     print(context.keys())
     context['keys'] = context.keys()
@@ -44,64 +45,41 @@ def checklist(request):
     else:
         delete_cache = False
     # globální proměnné, které se budou přenášet
-    if not ('chosen_artists' in context.keys()) or delete_cache:
-        context['chosen_artists'] = []
-        context['chosen_ids'] = []
-        context['chosen_songs'] = []
+    if not ('chosen_artists' in request.session.keys()) or delete_cache:
+        request.session['chosen_artists'] = []
+        request.session['chosen_ids'] = []
+        request.session['chosen_songs'] = []
+        # tohle zůstane v contextu, protože se to přenáší do HTML přímo
         context['ready'] = False
         context['pasted'] = False
-        request.session['send_input'] = []
-        
+        # prázdný dictionary
+        request.session['send_input'] = {}
     
     ## VYBÍRÁNÍ PÍSNIČEK Z DATABÁZE PŘI ZADÁNÍ UMĚLCE --------------------------------------------
     # pokud člověk zadá umělce, uloží se do art_name
     art_name = request.POST.get('art_name')
     if art_name:
         songList = sc.song_list2(data, art_name)
-        context['pasted'] = True
-        context['songList'] = songList
-        context['art_name'] = art_name
-        request.session['artist_name'] = art_name
+        context['pasted'] = True        # tohle zůstává v contextu, aby bylo jasné, co chci nechat zobrazit
+        context['songList'] = songList  # seznam písniček, které jdou do checklistu
+        context['art_name'] = art_name  # aby bylo jasné, od jakého umělce bereme písničky
 
     ## ULOŽENÍ PÍSNIČEK PŘI ZAKLIKÁNÍ V CHECKLISTU ------------------------------------------------
     chosen_ids = request.POST.getlist('checklist')
-    chosen_tracks = sc.names_from_ids(data,chosen_ids)
-    print(chosen_tracks)
+    chosen_tracks = sc.names_from_ids(data,chosen_ids).tolist()
 
     if chosen_ids:
-        art_name = request.session.get('artist_name')
-        context['chosen_artists'].append(art_name)
-        context['chosenSongs'] = chosen_tracks
+        art_name = context['art_name']
+        request.session['chosen_artists'].append(art_name)
+        # aby bylo jasné, co se má zobrazit
         context['ready'] = True
         context['pasted'] = False
-        context['chosen_ids'].append(chosen_ids)
-        context['chosen_songs'].append(chosen_tracks.values[:])
-        print(context['chosen_songs'])
-        context['song_name'] = chosen_tracks.values[0]
+        request.session['chosen_ids'].append(chosen_ids)
+        request.session['chosen_songs'].append(chosen_tracks)
 
-    # temporary files kvůli resetu na heroku
-    # a taky kvůli manipulaci s daty
-    # až na to, že to stále nefunguje :(
-    tmp1 = []
-    tmp1 = context['chosen_ids']
-    input_ids = [item for sublist in tmp1 for item in sublist]
-    tmp2 = []
-    tmp2 = context['chosen_songs']
-    input_songs = [item for sublist in tmp2 for item in sublist]
-    tmp3 = []
-    tmp3 = context['chosen_artists']
-    input_artists = [item for item in tmp3]
-
-    # input, který se posílá skrz django do další page -> knn
-
-    send_input = {
-        'artists': input_artists,#context['chosen_artists'],
-        'songs': input_songs,
-        'ids': input_ids,
-    }
-    request.session['send_input'] = send_input
-    print(request.session['send_input'])
-
+    context['chosen_songs'] = request.session.get('chosen_songs')
+    if not context['chosen_songs']:
+        context['ready'] = False
     # a jedeme view
     return render(request, 'model/checklist.html', context)
 
@@ -109,16 +87,17 @@ def knn(request):
     # context jako vždy
     context = pages
     # získání přeneseného inputu a uložení do lokálních proměnných
-    sent_input = request.session.get('send_input')
-    print(sent_input)
-    input_ids = sent_input['ids']
-    input_artists = sent_input['artists']
-    input_songs = sent_input['songs']
+    ids = request.session.get('chosen_ids')
+    input_artists = request.session.get('chosen_artists')
+    songs = request.session.get('chosen_songs')
+
+    # collect (kvůli blbé funkčnosti append)
+    input_ids = [item for sublist in ids for item in sublist]
+    input_songs = [item for sublist in songs for item in sublist]
 
     # recommentations
     recommended = knn_model.recommend_knn(input_ids, input_artists)
     #print(recommended)
-    context['was_recommended'] = True # uložení do contextu
     rec_ids = recommended['track_id']
     rec_songs = recommended['track_name']
     rec_artists = recommended['artist_name']
@@ -134,7 +113,6 @@ def knn(request):
 def model(request):
     data = sc.read_data()
     nm = request.POST.get('test')
-    #n = request.POST.get('number') - TBD
     if nm:
         n = 10
         how_many, rand_sample = sc.find_artist(nm,data,n)
