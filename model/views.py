@@ -49,27 +49,28 @@ def checklist(request):
         request.session['chosen_artists'] = []
         request.session['chosen_ids'] = []
         request.session['chosen_songs'] = []
+        if 'art_name' in request.session.keys():
+            del request.session['art_name']
         # tohle zůstane v contextu, protože se to přenáší do HTML přímo
         context['ready'] = False
         context['pasted'] = False
-        # prázdný dictionary
-        request.session['send_input'] = {}
     
     ## VYBÍRÁNÍ PÍSNIČEK Z DATABÁZE PŘI ZADÁNÍ UMĚLCE --------------------------------------------
     # pokud člověk zadá umělce, uloží se do art_name
     art_name = request.POST.get('art_name')
+    context['art_name'] = art_name
     if art_name:
         songList = sc.song_list2(data, art_name)
         context['pasted'] = True        # tohle zůstává v contextu, aby bylo jasné, co chci nechat zobrazit
         context['songList'] = songList  # seznam písniček, které jdou do checklistu
-        context['art_name'] = art_name  # aby bylo jasné, od jakého umělce bereme písničky
+        request.session['art_name'] = art_name  # aby bylo jasné, od jakého umělce bereme písničky
 
     ## ULOŽENÍ PÍSNIČEK PŘI ZAKLIKÁNÍ V CHECKLISTU ------------------------------------------------
     chosen_ids = request.POST.getlist('checklist')
     chosen_tracks = sc.names_from_ids(data,chosen_ids).tolist()
 
     if chosen_ids:
-        art_name = context['art_name']
+        art_name = request.session.get('art_name')
         request.session['chosen_artists'].append(art_name)
         # aby bylo jasné, co se má zobrazit
         context['ready'] = True
@@ -80,6 +81,8 @@ def checklist(request):
     context['chosen_songs'] = request.session.get('chosen_songs')
     if not context['chosen_songs']:
         context['ready'] = False
+    else:
+        context['ready'] = True
     # a jedeme view
     return render(request, 'model/checklist.html', context)
 
