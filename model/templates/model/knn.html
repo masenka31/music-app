@@ -89,14 +89,12 @@
 
                 <!-- Text stuff -->
                 <p>You've chosen your songs - now enjoy recommended tracks just for you!</p>
-                {% if was_recommended %}
                 {% for x,y,z in all %}
                 <p><strong>{{z}}:</strong> {{y}}</p>
                 <p>
                 <iframe src="https://open.spotify.com/embed/track/{{ x }}" width="500" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
                 </p>
                 {% endfor %}
-                {% endif %}
                 
             </section>
 

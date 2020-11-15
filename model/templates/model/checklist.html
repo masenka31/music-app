@@ -80,7 +80,7 @@
                 <p>Autocomplete search for artists in a database: </p>
                 <div class="col-6 col-12-small">
                     <!--Make sure the form has the autocomplete function switched off:-->
-                    <form autocomplete="off" action="#songs" method="post">
+                    <form autocomplete="off" action="" method="post">
                         <ul class="actions">
                             <li>
                                 <div class="autocomplete" style="width:300px;">
@@ -209,7 +209,7 @@
 
                 {% if pasted %}
                 <p id="songs">Songs from artists: <strong>{{ chosen_artists }}</strong></p>
-                <form method="post" action="#">
+                <form method="post" action="">
                     <p>
                         {% for song, id in songList %}
                         <input type="checkbox" id="{{forloop.counter}}" name="checklist" value="{{ id }}">
@@ -225,15 +225,6 @@
                 {% if ready %}
                 <p> Here are all the songs you've chosen so far:</p>
                 <p>
-                    <!--{% for i in chosenSongs %} PODÍVEJ SE TADY JESTLI TO DÁVÁ TO STEJNÉ! A VYPRINTUJ SI I UMĚLCE NA TÉHLE STRÁNCE
-                <li>{{ i }}</li>
-                {% endfor %}
-                </p> -->
-                {% for i in chosenSongs %}
-                <li>{{ i }}</li>
-                {% endfor %}
-                </p>
-                <p>
                     {% for i in chosen_songs %}
                     {% for j in i%}
                     <li>{{ j }}</li>
@@ -241,6 +232,7 @@
                     {% endfor %}
                 </p>
                 {% endif %}
+
 
                 {% if ready %}
                 <p>
