@@ -36,7 +36,7 @@ def checklist(request):
     context['artists_autocomplete'] = art_list # tohle se posílá JS
     print(context.keys())
     context['keys'] = context.keys()
-
+ 
     ## RESET SONGŮ ----------------------------------------------------------------------
     # pokud od uživatele dostanu klik na tlačítko RESET
     delete_input = request.POST.get('delete_input')
