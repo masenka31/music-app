@@ -34,6 +34,7 @@ def checklist(request):
     # a JSON dump pro JS
     context['artists_autocomplete'] = art_list # tohle se posílá JS
     print(context.keys())
+    context['keys'] = context.keys()
 
     ## RESET SONGŮ ----------------------------------------------------------------------
     # pokud od uživatele dostanu klik na tlačítko RESET
@@ -43,7 +44,7 @@ def checklist(request):
     else:
         delete_cache = False
     # globální proměnné, které se budou přenášet
-    if not ('chosen_artists' in context) or delete_cache:
+    if not ('chosen_artists' in context.keys()) or delete_cache:
         context['chosen_artists'] = []
         context['chosen_ids'] = []
         context['chosen_songs'] = []
@@ -59,7 +60,8 @@ def checklist(request):
         songList = sc.song_list2(data, art_name)
         context['pasted'] = True
         context['songList'] = songList
-        context['chosen_artists'].append(art_name)
+        context['art_name'] = art_name
+        request.session['artist_name'] = art_name
 
     ## ULOŽENÍ PÍSNIČEK PŘI ZAKLIKÁNÍ V CHECKLISTU ------------------------------------------------
     chosen_ids = request.POST.getlist('checklist')
@@ -67,12 +69,15 @@ def checklist(request):
     print(chosen_tracks)
 
     if chosen_ids:
+        art_name = request.session.get('artist_name')
+        context['chosen_artists'].append(art_name)
         context['chosenSongs'] = chosen_tracks
         context['ready'] = True
         context['pasted'] = False
         context['chosen_ids'].append(chosen_ids)
         context['chosen_songs'].append(chosen_tracks.values[:])
         print(context['chosen_songs'])
+        context['song_name'] = chosen_tracks.values[0]
 
     # temporary files kvůli resetu na heroku
     # a taky kvůli manipulaci s daty
@@ -85,12 +90,12 @@ def checklist(request):
     input_songs = [item for sublist in tmp2 for item in sublist]
     tmp3 = []
     tmp3 = context['chosen_artists']
-    input_artists = tmp3
+    input_artists = [item for item in tmp3]
 
     # input, který se posílá skrz django do další page -> knn
 
     send_input = {
-        'artists': context['chosen_artists'],
+        'artists': input_artists,#context['chosen_artists'],
         'songs': input_songs,
         'ids': input_ids,
     }
