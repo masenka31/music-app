@@ -29,7 +29,16 @@
 
     i:hover {
         border-bottom-color: transparent;
-        color: #18bfef !important;
+        text-shadow: 1px 1px 1px black;
+    }
+    i.disabled{
+        opacity: 0.2
+    }
+    i.ban{
+        color: #8f384d;
+    }
+    i.checked{
+        color:green;
     }
 </style>
 
@@ -73,59 +82,58 @@
 
                 <p>
                     Let's see what you have chosen...
-                </p>
                 <div class="row">
                 <div class="col-6 col-12-small">
                 <p>
                     <strong>Songs</strong>
-                </p>
-                <ol>
+                
+                <ul>
                     {% for x in input_songs %}
                     <li>{{ x }}</li>
                     {% endfor %}
-                </ol>
+                </ul>
+            </p>
                 </div>
                 <div class="col-6 col-12-small">
                 <p>
                     <strong>Artists</strong>
-                </p>
-                <ol>
+                
+                <ul>
                     {% for x in input_artists %}
                     <li>{{ x }}</li>
                     {% endfor %}
-                </ol>
+                </ul>
+            </p>
                 </div>
                 </div>
+            </p>
 
                 <script>
                     function likeMe(num) {
                         var nmb = num
-                        if (document.getElementById(`heartIcon_${nmb}`).className == 'far fa-heart fa-3x') {
-                            var like = true
-                            document.getElementById(`heartIcon_${nmb}`).className = 'fas fa-heart fa-3x'
-                            document.getElementById(`heartValue_${nmb}`).value = `heartValue_${nmb}_true`
+                        if (document.getElementById(`heartIcon_${nmb}`).className == 'far fa-heart fa-3x disabled') {
+                            document.getElementById(`heartIcon_${nmb}`).className = 'fas fa-heart fa-3x checked'
+                            document.getElementById(`banIcon_${nmb}`).className = 'fas fa-ban fa-3x disabled'
+                            document.getElementById(`heartValue_${nmb}`).value = `true`
                         }
                         else {
-                            var like = false
-                            document.getElementById(`heartIcon_${nmb}`).className = 'far fa-heart fa-3x'
-                            document.getElementById(`heartValue_${nmb}`).value = `heartValue_${nmb}_false`
+                            document.getElementById(`heartIcon_${nmb}`).className = 'far fa-heart fa-3x disabled'
+                            document.getElementById(`banIcon_${nmb}`).className = 'fas fa-ban fa-3x disabled'
+                            document.getElementById(`heartValue_${nmb}`).value = `false`
                         }
                     }
-                </script>
 
-                <script>
-                    function likeMeID(num,x) {
+                    function banMe(num) {
                         var nmb = num
-                        var ID = x
-                        if (document.getElementById(`heartIcon_${nmb}`).className == 'far fa-heart fa-3x') {
-                            var like = true
-                            document.getElementById(`heartIcon_${nmb}`).className = 'fas fa-heart fa-3x'
-                            document.getElementById(`heartValue_${nmb}`).value = `${x}_true`
+                        if (document.getElementById(`banIcon_${nmb}`).className == 'fas fa-ban fa-3x disabled') {
+                            document.getElementById(`heartIcon_${nmb}`).className = 'far fa-heart fa-3x disabled'
+                            document.getElementById(`banIcon_${nmb}`).className = 'fas fa-ban fa-3x ban'
+                            document.getElementById(`heartValue_${nmb}`).value = `banned`
                         }
                         else {
-                            var like = false
-                            document.getElementById(`heartIcon_${nmb}`).className = 'far fa-heart fa-3x'
-                            document.getElementById(`heartValue_${nmb}`).value = `${x}_false`
+                            document.getElementById(`heartIcon_${nmb}`).className = 'far fa-heart fa-3x disabled'
+                            document.getElementById(`banIcon_${nmb}`).className = 'fas fa-ban fa-3x disabled'
+                            document.getElementById(`heartValue_${nmb}`).value = `false`
                         }
                     }
                 </script>
@@ -144,10 +152,14 @@
                                 frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
                         </p>
                     </div>
-                    <div class="col-6 col-12-small">
-                        <div onclick="likeMe({{forloop.counter}})">
-                            <input type="hidden" id="heartValue_{{forloop.counter}}" name="likeList" value="heartValue_{{forloop.counter}}_false">
-                            <i id='heartIcon_{{forloop.counter}}' class="far fa-heart fa-3x"></i>
+                    <div class="row">
+                        <div class="col-12-small" onclick="likeMe({{forloop.counter}})">
+                            <input type="hidden" id="heartValue_{{forloop.counter}}" name="likeList" value="false">
+                            <i id='heartIcon_{{forloop.counter}}' class="far fa-heart fa-3x disabled" style="padding-top:10px;"></i>
+                        </div>
+
+                        <div class="col-12-small" onclick="banMe({{forloop.counter}})">
+                            <i id='banIcon_{{forloop.counter}}' class="fas fa-ban fa-3x disabled" style="padding-top:10px;"></i>
                         </div>
                     </div>
                 </div>
