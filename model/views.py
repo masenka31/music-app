@@ -94,6 +94,11 @@ def knn(request):
     input_artists = request.session.get('chosen_artists')
     songs = request.session.get('chosen_songs')
 
+    # pokud user dá like na písničky, vezmeme je a přidáme k
+    likeList = request.POST.getlist('likeList')
+    if likeList:
+        context['likeList'] = likeList
+
     # collect (kvůli blbé funkčnosti append)
     input_ids = [item for sublist in ids for item in sublist]
     input_songs = [item for sublist in songs for item in sublist]
