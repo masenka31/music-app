@@ -18,6 +18,16 @@ pages = {
         'fourth': 'Spotify',
 }
 
+pages = {
+        'title': 'Know Your Music',
+        'home': 'Home',
+        'random': 'Random Model',
+        'knn': 'KNN Model',
+        'w2v': 'Word2Vec',
+        'about': 'Our Story',
+}
+
+
 # Create your views here.
 
 def checklist(request):

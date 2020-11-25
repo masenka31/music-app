@@ -21,6 +21,16 @@ pages = {
         'fourth': 'Spotify',
 }
 
+pages = {
+        'title': 'Know Your Music',
+        'home': 'Home',
+        'random': 'Random Model',
+        'knn': 'KNN Model',
+        'w2v': 'Word2Vec',
+        'about': 'Our Story',
+}
+
+
 def w2v_main(request):
     context = pages
     return render(request, 'word2vec/w2v_main.html', context)
