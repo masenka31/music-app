@@ -104,24 +104,35 @@ def w2v_model(request):
     input_ids = [item for sublist in ids for item in sublist]
     input_songs = [item for sublist in songs for item in sublist]
 
+    likeList = request.POST.getlist('likeList')
+    banned = []
+    if likeList:
+        #context['likeList'] = likeList
+        rec_ids = request.session.get('rec_ids')
+        rec_artists = request.session.get('rec_artists')
+        rec_songs = request.session.get('rec_songs')
+        input_ids, input_artists, input_songs, banned = knn_model.add_recommended(input_ids,input_artists,input_songs,rec_ids,rec_artists,rec_songs,likeList)
+
+
     # recommentations
     rec_ids = wv.w2v_recommend(input_ids)
     #recommended = knn_model.recommend_knn(input_ids, input_artists,banned)
     # uložení do listů
     data = sc.read_data()
-    rec_songs = sc.names_from_ids(data,rec_ids)
-    #rec_artists = recommended['artist_name']
+    rec_songs, rec_artists = sc.idtonames(data,rec_ids)
+
     # uložení do kontextu pro výpis
     context['input_songs'] = input_songs
     context['input_artists'] = input_artists
     # zazipování, aby bylo možné data přenést do HTML
     # a uložení do kontextu
-    recommended_list = zip(rec_ids, rec_songs)
+    recommended_list = zip(rec_ids, rec_songs, rec_artists)
     context['all'] = recommended_list
 
     # a ještě uložení do request.session, abychom mohli dávat nové recommendations
     request.session['rec_ids'] = rec_ids
-    request.session['rec_songs'] = rec_songs.tolist()
+    request.session['rec_artists'] = rec_artists
+    request.session['rec_songs'] = rec_songs
     # a uložení pro KNN?
     request.session['chosen_artists'] = input_artists
     request.session['chosen_ids'] = [input_ids]

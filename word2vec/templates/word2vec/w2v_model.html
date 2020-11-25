@@ -142,9 +142,9 @@
                 <!-- Text stuff -->
                 <p>You've chosen your songs - now enjoy recommended tracks just for you!</p>
                 <p>If you want to get more (and better) recommendations simply click the <i class="far fa-heart"></i> icon. This will add songs you like to your list and you can recalculate your recommendations to get even more amazing songs tailored just for you...</p>
-                {% for x,y in all %}
+                {% for x,y,z in all %}
                 <form method="post" action="">
-                <p>{{y}}</p>
+                <p><strong>{{z}}</strong>: {{y}}</p>
                 <div class="row">
                     <div class="col-6 col-12-small">
                         <p>

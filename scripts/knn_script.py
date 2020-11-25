@@ -29,8 +29,8 @@ def add_recommended(input_ids,input_artists,input_songs,rec_ids,rec_artists,rec_
     banned = []
     for index in range(0,len(likeList)):
         if likeList[index] == 'true':
-            print(rec_ids[index])
-            print(rec_songs[index])
+            #print(rec_ids[index])
+            #print(rec_songs[index])
             input_ids.append(rec_ids[index])
             input_songs.append(rec_songs[index])
             tmp_art = rec_artists[index]

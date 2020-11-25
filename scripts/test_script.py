@@ -28,3 +28,11 @@ def song_list2(data,art_name):
 def names_from_ids(data,ids):
     song_names = data.loc[data['track_id'].isin(ids)]
     return song_names['track_name']
+
+def idtonames(data,ids):
+    songs = data.loc[data['track_id'].isin(ids)]
+    tmp = pd.DataFrame({'tmp': ids})
+    df = tmp.merge(songs, left_on='tmp', right_on='track_id')
+    song_names = df['track_name'].tolist()
+    artists = df['artist_name'].tolist()
+    return song_names, artists
