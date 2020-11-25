@@ -1,0 +1,196 @@
+{% load static %}
+<!DOCTYPE HTML>
+<!--
+	Massively by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+<head>
+    <title>Word2Vec model</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="{% static 'blog/assets/css/main.css' %}" />
+    <noscript>
+        <link rel="stylesheet" href="{% static 'blog/assets/css/noscript.css' %}" /></noscript>
+    <link href="https://fonts.googleapis.com/icon?faily=Material+Icons" rel='stylesheet'>
+    <script src="https://kit.fontawesome.com/4a7db10ff8.js" crossorigin="anonymous"></script>
+</head>
+
+<style>
+    .floating-btn {
+        cursor: pointer;
+        transition: background 0.25s;
+        position: fixed;
+        right: 250px;
+        bottom: 300px;
+    }
+
+    i:hover {
+        border-bottom-color: transparent;
+        text-shadow: 1px 1px 1px black;
+    }
+    i.disabled{
+        opacity: 0.2
+    }
+    i.ban{
+        color: #8f384d;
+    }
+    i.checked{
+        color:green;
+    }
+</style>
+
+<body class="is-preload">
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Header -->
+        <header id="header">
+            <a href="../#main" class="logo">{{ title }}</a>
+        </header>
+
+
+        <!-- Nav -->
+        <nav id="nav">
+            <ul class="links">
+                <li><a href="../../../#main">{{ main }}</a></li>
+                <li><a href="../">{{ first }}</a></li>
+                <li class="active"><a href="../checklist">{{ second }}</a></li>
+                <li><a href="../../about">{{ third }}</a></li>
+                <li><a href="../../spotify">{{ fourth }}</a></li>
+            </ul>
+            <ul class="icons">
+                <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+                <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+                <li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+            </ul>
+        </nav>
+
+        <!-- Main -->
+        <div id="main">
+
+            <!-- Post -->
+            <section class="post">
+                <header class="major">
+                    <h1>Word2Vec model</h1>
+                </header>
+
+
+                <p>
+                    Let's see what you have chosen...
+                <div class="row">
+                <div class="col-6 col-12-small">
+                <p>
+                    <strong>Songs</strong>
+                
+                <ul>
+                    {% for x in input_songs %}
+                    <li>{{ x }}</li>
+                    {% endfor %}
+                </ul>
+            </p>
+                </div>
+                <div class="col-6 col-12-small">
+                <p>
+                    <strong>Artists</strong>
+                
+                <ul>
+                    {% for x in input_artists %}
+                    <li>{{ x }}</li>
+                    {% endfor %}
+                </ul>
+            </p>
+                </div>
+                </div>
+            </p>
+
+                <script>
+                    function likeMe(num) {
+                        var nmb = num
+                        if (document.getElementById(`heartIcon_${nmb}`).className == 'far fa-heart fa-3x disabled') {
+                            document.getElementById(`heartIcon_${nmb}`).className = 'fas fa-heart fa-3x checked'
+                            document.getElementById(`banIcon_${nmb}`).className = 'fas fa-ban fa-3x disabled'
+                            document.getElementById(`heartValue_${nmb}`).value = `true`
+                        }
+                        else {
+                            document.getElementById(`heartIcon_${nmb}`).className = 'far fa-heart fa-3x disabled'
+                            document.getElementById(`banIcon_${nmb}`).className = 'fas fa-ban fa-3x disabled'
+                            document.getElementById(`heartValue_${nmb}`).value = `false`
+                        }
+                    }
+
+                    function banMe(num) {
+                        var nmb = num
+                        if (document.getElementById(`banIcon_${nmb}`).className == 'fas fa-ban fa-3x disabled') {
+                            document.getElementById(`heartIcon_${nmb}`).className = 'far fa-heart fa-3x disabled'
+                            document.getElementById(`banIcon_${nmb}`).className = 'fas fa-ban fa-3x ban'
+                            document.getElementById(`heartValue_${nmb}`).value = `banned`
+                        }
+                        else {
+                            document.getElementById(`heartIcon_${nmb}`).className = 'far fa-heart fa-3x disabled'
+                            document.getElementById(`banIcon_${nmb}`).className = 'fas fa-ban fa-3x disabled'
+                            document.getElementById(`heartValue_${nmb}`).value = `false`
+                        }
+                    }
+                </script>
+
+
+                <!-- Text stuff -->
+                <p>You've chosen your songs - now enjoy recommended tracks just for you!</p>
+                <p>If you want to get more (and better) recommendations simply click the <i class="far fa-heart"></i> icon. This will add songs you like to your list and you can recalculate your recommendations to get even more amazing songs tailored just for you...</p>
+                {% for x,y,z in all %}
+                <form method="post" action="">
+                <p><strong>{{z}}</strong>: {{y}}</p>
+                <div class="row">
+                    <div class="col-6 col-12-small">
+                        <p>
+                            <iframe src="https://open.spotify.com/embed/track/{{ x }}" width="400" height="80"
+                                frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                        </p>
+                    </div>
+                    <div class="row">
+                        <div class="col-12-small" onclick="likeMe({{forloop.counter}})">
+                            <input type="hidden" id="heartValue_{{forloop.counter}}" name="likeList" value="false">
+                            <i id='heartIcon_{{forloop.counter}}' class="far fa-heart fa-3x disabled" style="padding-top:10px;"></i>
+                        </div>
+
+                        <div class="col-12-small" onclick="banMe({{forloop.counter}})">
+                            <i id='banIcon_{{forloop.counter}}' class="fas fa-ban fa-3x disabled" style="padding-top:10px;"></i>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                <p>If you liked any songs from the list, let's go and recommend some more songs.</p>
+                <p> {{likeList}} </p>
+                {% csrf_token %}
+                <button type="submit">Recalculate recommendations.</button>
+                </form>
+
+            </section>
+
+            <!-- Copyright -->
+            <div id="copyright">
+                <ul>
+                    <li>&copy; Untitled</li>
+                    <li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- Scripts -->
+        <script src="{% static 'blog/assets/js/jquery.min.js' %}"></script>
+        <script src="{% static 'blog/assets/js/jquery.scrollex.min.js' %}"></script>
+        <script src="{% static 'blog/assets/js/jquery.scrolly.min.js' %}"></script>
+        <script src="{% static 'blog/assets/js/browser.min.js' %}"></script>
+        <script src="{% static 'blog/assets/js/breakpoints.min.js' %}"></script>
+        <script src="{% static 'blog/assets/js/util.js' %}"></script>
+        <script src="{% static 'blog/assets/js/main.js' %}"></script>
+
+</body>
+
+</html>
