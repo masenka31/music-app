@@ -19,12 +19,35 @@
 </head>
 
 <style>
-    .floating-btn {
-        cursor: pointer;
-        transition: background 0.25s;
-        position: fixed;
-        right: 250px;
-        bottom: 300px;
+    .slidecontainer {
+        width: 50%;
+        /* Width of the outside container */
+    }
+
+    /* The slider itself */
+    .slider {
+        -webkit-appearance: none;
+        /* Override default CSS styles */
+        appearance: none;
+        width: 50%;
+        /* Full-width */
+        height: 5px;
+        /* Specified height */
+        background: #d3d3d3;
+        /* Grey background */
+        outline: none;
+        /* Remove outline */
+        opacity: 0.7;
+        /* Set transparency (for mouse-over effects on hover) */
+        -webkit-transition: .2s;
+        /* 0.2 seconds transition on hover */
+        transition: opacity .2s;
+    }
+
+    /* Mouse-over effects */
+    .slider:hover {
+        opacity: 1;
+        /* Fully shown on mouse-over */
     }
 </style>
 
@@ -43,10 +66,10 @@
         <nav id="nav">
             <ul class="links">
                 <li><a href="../../#main">{{ home }}</a></li>
-				<li><a href="../../model">{{ random }}</a></li>
-				<li><a href="../../model/checklist">{{ knn }}</a></li>
-				<li class="active"><a href="../../word2vec/checklist">{{ w2v }}</a></li>
-				<li><a href="../../about">{{ about }}</a></li>
+                <li><a href="../../model">{{ random }}</a></li>
+                <li><a href="../../model/checklist">{{ knn }}</a></li>
+                <li class="active"><a href="../../word2vec/checklist">{{ w2v }}</a></li>
+                <li><a href="../../about">{{ about }}</a></li>
             </ul>
             <ul class="icons">
                 <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
@@ -58,8 +81,35 @@
 
         <!-- Main -->
         <div id="main">
-        <p>There...</p>
+            <section class="post">
+                <header class="major">
+                    <h1>Surprise slider</h1>
+                </header>
+                <p>We know your struggle. Sometimes you want to find soungs you've never heard before. Maybe
+                    songs which can suprise you. Our surprise slider is here to help. Simply choose how much
+                    you want to be surprised. No surprises? Just put it to 0 %.
+                </p>
+
+                <form method="post">
+                <div class="col">
+                    <input type="range" min="0" max="100" value="10" class="slider" id="sliderRange" name="slider_value">
+                    <p>Rate of surprise: <strong><span id="demo"></span> %</strong>.</p>
+                </div>                
+                    {% csrf_token %}
+                    <button class="primary" action="" type="submit">Let's go!</button>
+                </form>
+            </section>
         </div>
+
+        <script>
+            var rangeslider = document.getElementById("sliderRange");
+            var output = document.getElementById("demo");
+            output.innerHTML = rangeslider.value;
+
+            rangeslider.oninput = function () {
+                output.innerHTML = this.value;
+            } 
+        </script>
 
         <!-- Copyright -->
         <div id="copyright">

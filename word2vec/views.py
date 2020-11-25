@@ -33,6 +33,10 @@ pages = {
 
 def w2v_main(request):
     context = pages
+
+    slider_value = request.POST.get('slider_value')
+    #print(slider_value)
+
     return render(request, 'word2vec/w2v_main.html', context)
 
 def w2v_checklist(request):
