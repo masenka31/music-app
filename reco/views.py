@@ -9,17 +9,6 @@ import w2v as wv
 import pandas as pd
 from json import dumps
 
-# Create your views here.
-
-pages = {
-        'title': 'Know Your Music',
-        'main': 'About',
-        'first': 'Random Model',
-        'second': 'KNN Model',
-        'word2vec': 'Word2Vec Model',
-        'third': 'Our Story',
-        'fourth': 'Spotify',
-}
 
 pages = {
         'title': 'Know Your Music',
@@ -31,15 +20,9 @@ pages = {
 }
 
 
-def w2v_main(request):
-    context = pages
+# Create your views here.
 
-    slider_value = request.POST.get('slider_value')
-    #print(slider_value)
-
-    return render(request, 'word2vec/w2v_main.html', context)
-
-def w2v_checklist(request):
+def checklist(request):
     ## ZÁKLADNÍ NAČTENÍ DAT ATD. ------------------------------------------------------
     # načtu data, vezmu si z nich unikátní umělce
     data = sc.read_data()
@@ -54,7 +37,24 @@ def w2v_checklist(request):
     # a JSON dump pro JS
     # tohle taky zůstane v contextu
     context['artists_autocomplete'] = art_list # tohle se posílá JS
+    # a nakonec aktuální model
+    if 'model' not in request.session:
+        model = "word2vec"
+        request.session['model'] = model
+    else:
+        model = request.session.get('model')
+ 
+    if model == "word2vec":
+        model_name = "Word2Vec model"
+    elif model == "knn":
+        model_name = "KNN model"
+    elif model == "als":
+        model_name = "ALS model"
+    else:
+        model_name = "Random model"
 
+    context['model_name'] = model_name
+    context['modelJS'] = dumps(model)
     ## RESET SONGŮ ----------------------------------------------------------------------
     # pokud od uživatele dostanu klik na tlačítko RESET
     delete_input = request.POST.get('delete_input')
@@ -67,7 +67,6 @@ def w2v_checklist(request):
         request.session['chosen_artists'] = []
         request.session['chosen_ids'] = []
         request.session['chosen_songs'] = []
-        request.session['banned'] = []
         if 'art_name' in request.session.keys():
             del request.session['art_name']
         # tohle zůstane v contextu, protože se to přenáší do HTML přímo
@@ -103,15 +102,21 @@ def w2v_checklist(request):
     else:
         context['ready'] = True
     # a jedeme view
-    return render(request, 'word2vec/w2v_checklist.html', context)    
+    return render(request, 'reco/checklist.html', context)
 
-def w2v_model(request):
+def recommendations(request):
+    ### Get data / change data / do magic with data
     # context jako vždy
     context = pages
     # získání přeneseného inputu a uložení do lokálních proměnných
     ids = request.session.get('chosen_ids')
     input_artists = request.session.get('chosen_artists')
     songs = request.session.get('chosen_songs')
+
+    ### TBD
+    # request.POST z přechozího?
+    # model = request.POST.get('model_choice')
+    # print(model)
 
     # collect (kvůli blbé funkčnosti append)
     input_ids = [item for sublist in ids for item in sublist]
@@ -132,14 +137,22 @@ def w2v_model(request):
         input_ids, input_artists, input_songs, banned = knn_model.add_recommended(input_ids,input_artists,input_songs,rec_ids,rec_artists,rec_songs,likeList,banned=banned)
         request.session['banned'] = banned
         
+    ### give recommendations
+    model = request.session.get('model')
+    if model == "word2vec":
+        rec_ids = wv.w2v_recommend(input_ids,disliked=banned)
+    elif model == "knn":
+        recommended = knn_model.recommend_knn(input_ids, input_artists)
+        rec_ids = recommended['track_id']
+    elif model == "als":
+        model_name = "ALS model"
+    else:
+        model_name = "Random model"
 
-    # recommentations
-    rec_ids = wv.w2v_recommend(input_ids,disliked=banned)
-    #recommended = knn_model.recommend_knn(input_ids, input_artists,banned)
-    # uložení do listů
     data = sc.read_data()
     rec_songs, rec_artists = sc.idtonames(data,rec_ids)
 
+    ### Save and view data
     # uložení do kontextu pro výpis
     context['input_songs'] = input_songs
     context['input_artists'] = input_artists
@@ -157,4 +170,17 @@ def w2v_model(request):
     request.session['chosen_ids'] = [input_ids]
     request.session['chosen_songs'] = [input_songs]
 
-    return render(request, 'word2vec/w2v_model.html', context)
+    # vybraný model
+    if model == "word2vec":
+        model_name = "Word2Vec model"
+    elif model == "knn":
+        model_name = "KNN model"
+    elif model == "als":
+        model_name = "ALS model"
+    else:
+        model_name = "Random model"
+
+    context['model_name'] = model_name
+
+    ### render
+    return render(request, 'recommendations.html', context)

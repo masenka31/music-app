@@ -13,13 +13,13 @@ pages = {
 # Create your views here.
 
 def about(request):
-    return render(request, 'blog/about.html', pages)
+    return render(request, 'home/about.html', pages)
 
 def index(request):
-    return render(request, 'blog/index.html', pages)
+    return render(request, 'home/index.html', pages)
 
 def elements(request):
-    return render(request, 'blog/elements.html', pages)
+    return render(request, 'home/elements.html', pages)
 
 
 def spotify(request):
@@ -47,6 +47,6 @@ def spotify(request):
             'artist': artist_url
         }
 
-        return render(request, 'blog/spotify.html', reload_spotify)
+        return render(request, 'home/spotify.html', reload_spotify)
     else:
-        return render(request, 'blog/spotify.html', pages)
+        return render(request, 'home/spotify.html', pages)

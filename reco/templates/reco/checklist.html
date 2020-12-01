@@ -8,13 +8,12 @@
 <html>
 
 <head>
-    <title>Word2Vec Model</title>
+    <title>Favourites List</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="{% static 'blog/assets/css/main.css' %}" />
     <noscript>
-        <link rel="stylesheet" href="{% static 'blog/assets/css/noscript.css' %}" />
-    </noscript>
+        <link rel="stylesheet" href="{% static 'blog/assets/css/noscript.css' %}" /></noscript>
     <link href="https://fonts.googleapis.com/icon?faily=Material+Icons" rel='stylesheet'>
 </head>
 
@@ -28,7 +27,7 @@
     }
 </style>
 
-<body class="is-preload">
+<body class="is-preload" onload="selected();">
 
     <!-- Wrapper -->
     <div id="wrapper">
@@ -43,10 +42,10 @@
         <nav id="nav">
             <ul class="links">
                 <li><a href="../../#main">{{ home }}</a></li>
-				<li><a href="../../model">{{ random }}</a></li>
-				<li><a href="../../model/checklist">{{ knn }}</a></li>
-				<li class="active"><a href="../../word2vec/checklist">{{ w2v }}</a></li>
-				<li><a href="../../about">{{ about }}</a></li>
+                <li><a href="../../model">{{ random }}</a></li>
+                <li class="active"><a href="../../model/checklist">{{ knn }}</a></li>
+                <li><a href="../../word2vec/checklist">{{ w2v }}</a></li>
+                <li><a href="../../about">{{ about }}</a></li>
             </ul>
             <ul class="icons">
                 <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
@@ -62,24 +61,86 @@
             <!-- Post -->
             <section class="post">
                 <header class="major">
-                    <h1>Word2Vec Model</h1>
+                    <h1>Favourites List</h1>
                 </header>
 
-                <h2>How does it work?</h2>
-                <p>Well...</p>
                 <!-- Text stuff -->
-                <p>This is a page that uses autocomplete search to help you search for songs in our database.
-                    Simply start typing and choose artist from the dynamically appearing list.
-                    When you choose your desired artist, submit your search and see all their songs in our database.</p>
-                <p>What next? Choose the songs you like and we will add them to your favourites list. This is a list
-                    that will be used to recommend new songs for you. Save your list and if you've not chosen enough
-                    songs, just start searching for another artist.</p>
-                <p>When you're ready, click on <strong>Take me to my recommendations</strong> and marvel at the magical
-                    algorithm.</p>
+                <p>Before we can recommend any songs we need to know what you like!</p>
+                <p><button id="show" onclick="showMe();">Show more info...</button></p>
+                <div class="col-12" id="tldr" style="display:none">
+                    <p>This page uses autocomplete search to help you search for songs in our database.
+                        Simply start typing and choose artist from the list.
+                        When you choose your desired artist, submit your search and see all their songs in our database.
+                    </p>
+                    <p>What next? Choose the songs you like and we will add them to your favourites list. This is a list
+                        that will be used to recommend new songs for you. Save your list and if you've not chosen enough
+                        songs, just start searching for another artist.</p>
+                    <p>When you're ready, click on <strong>Take me to my recommendations</strong> and marvel at the
+                        magical
+                        algorithm.</p>
+                </div>
+                <p id="hide" style="display:none"><button onclick="showMe();">Hide info...</button></p>
+
+
+                <script>
+                    function showMe() {
+                        var element = document.getElementById('tldr')
+                        if (element.style.display == 'none') {
+                            document.getElementById('tldr').style.display = 'inline'
+                            document.getElementById('hide').style.display = 'inline'
+                            document.getElementById('show').style.display = 'none'
+                        }
+                        else {
+                            document.getElementById('tldr').style.display = 'none'
+                            document.getElementById('hide').style.display = 'none'
+                            document.getElementById('show').style.display = 'inline'
+                        }
+                    }
+                </script>
+
+                <p>Note the chosen algorithm for your recommendations. Right now you are using
+                    <strong>{{model_name}}</strong> but you can change this here:
+                <p>
+
+                <div class="col-6">
+                    <form method="post" action="#">
+                        <div class="col-12">
+                            {% csrf_token %}
+                            <select name="model_choice" id="model_choice">
+                                <option value="random">Random Model</option>
+                                <option value="knn">KNN Model</option>
+                                <option value="word2vec">Word2Vec Model</option>
+                                <option value="als">ALS Model</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
             </section>
 
+            <script>
+                var input = {{ modelJS | safe }};
+                var str = JSON.stringify(input);
+                var val = str.slice(1, -1);
+                var sel = document.getElementById('model_choice');
+                function selected() {
+                    var opts = sel.options;
+                    for (var opt, j = 0; opt = opts[j]; j++) {
+                        if (opt.value == val) {
+                            sel.selectedIndex = j;
+                            break;
+                        }
+                    }
+                }
+            </script>
+
+            <!--
+            <script>
+                document.getElementById("trick").innerHTML = "Hello";
+                var sel = document.getElementById('model_choice');
+            </script>-->
+
             <section class="post">
-                <p>Autocomplete search for artists in a database: </p>
+                <p>Choose artists and then songs from database: </p>
                 <div class="col-6 col-12-small">
                     <!--Make sure the form has the autocomplete function switched off:-->
                     <form autocomplete="off" action="" method="post">
@@ -248,7 +309,7 @@
                     }
                 </script>
                 <p>
-                    <a href="../w2v_model" class="button primary large">Take me to my recommendations...</a>
+                    <a href="../recommendations" class="button primary large" type="submit">Take me to my recommendations...</a>
                 </p>
                 {% endif %}
 
@@ -273,6 +334,7 @@
     <script src="{% static 'blog/assets/js/breakpoints.min.js' %}"></script>
     <script src="{% static 'blog/assets/js/util.js' %}"></script>
     <script src="{% static 'blog/assets/js/main.js' %}"></script>
+    <script src="{% static 'blog/assets/js/autocomplete.js' %}"></script>
 
 </body>
 

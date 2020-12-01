@@ -33,9 +33,10 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
-    'blog.apps.BlogConfig',
+    'home.apps.HomeConfig',
     'model.apps.ModelConfig',
     'word2vec.apps.Word2VecConfig',
+    'reco.apps.RecoConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

@@ -12,7 +12,7 @@ masa_list=["4MflGTO2ZTcSQ12bWcyRgI","4wTChU0tU44TAMC0xcQizi","19cL3SOKpwnwoKkII7
  
 stat(masa_list) """
 
-w2v_model = KeyedVectors.load("data/model.model", mmap='r')
+#w2v_model = KeyedVectors.load("data/model.model", mmap='r')
 
 def w2v_recommend(ids,n=10,disliked=[]):
     w2v_model = KeyedVectors.load("data/model.model", mmap='r')
