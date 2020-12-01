@@ -35,6 +35,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'model.apps.ModelConfig',
+    'word2vec.apps.Word2VecConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

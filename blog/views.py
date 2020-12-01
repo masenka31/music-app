@@ -1,34 +1,19 @@
 from django.shortcuts import render  # useful shortcuts :)
-#from django.http import HttpResponse
-
-# display these posts?
-# we have a list of dictionaries
 
 pages = {
         'title': 'Know Your Music',
-        'main': 'About',
-        'first': 'Random Model',
-        'second': 'KNN Model',
-        'third': 'Our Story',
-        'fourth': 'Spotify',
+        'home': 'Home',
+        'random': 'Random Model',
+        'knn': 'KNN Model',
+        'w2v': 'Word2Vec',
+        'about': 'Our Story',
 }
 
 
 # Create your views here.
 
-def home(request):
-    context = {
-        'posts': posts
-    }
-    return render(request, 'blog/home.html', context)
-
-# def home(request):
-#    return render(request, 'blog/home.html')
-
-
 def about(request):
     return render(request, 'blog/about.html', pages)
-
 
 def index(request):
     return render(request, 'blog/index.html', pages)

@@ -9,6 +9,17 @@ import w2v as wv
 import pandas as pd
 from json import dumps
 
+# Create your views here.
+
+pages = {
+        'title': 'Know Your Music',
+        'main': 'About',
+        'first': 'Random Model',
+        'second': 'KNN Model',
+        'word2vec': 'Word2Vec Model',
+        'third': 'Our Story',
+        'fourth': 'Spotify',
+}
 
 pages = {
         'title': 'Know Your Music',
@@ -20,9 +31,15 @@ pages = {
 }
 
 
-# Create your views here.
+def w2v_main(request):
+    context = pages
 
-def checklist(request):
+    slider_value = request.POST.get('slider_value')
+    #print(slider_value)
+
+    return render(request, 'word2vec/w2v_main.html', context)
+
+def w2v_checklist(request):
     ## ZÁKLADNÍ NAČTENÍ DAT ATD. ------------------------------------------------------
     # načtu data, vezmu si z nich unikátní umělce
     data = sc.read_data()
@@ -37,9 +54,7 @@ def checklist(request):
     # a JSON dump pro JS
     # tohle taky zůstane v contextu
     context['artists_autocomplete'] = art_list # tohle se posílá JS
-    print(context.keys())
-    context['keys'] = context.keys()
- 
+
     ## RESET SONGŮ ----------------------------------------------------------------------
     # pokud od uživatele dostanu klik na tlačítko RESET
     delete_input = request.POST.get('delete_input')
@@ -52,6 +67,7 @@ def checklist(request):
         request.session['chosen_artists'] = []
         request.session['chosen_ids'] = []
         request.session['chosen_songs'] = []
+        request.session['banned'] = []
         if 'art_name' in request.session.keys():
             del request.session['art_name']
         # tohle zůstane v contextu, protože se to přenáší do HTML přímo
@@ -87,9 +103,9 @@ def checklist(request):
     else:
         context['ready'] = True
     # a jedeme view
-    return render(request, 'model/checklist.html', context)
+    return render(request, 'word2vec/w2v_checklist.html', context)    
 
-def knn(request):
+def w2v_model(request):
     # context jako vždy
     context = pages
     # získání přeneseného inputu a uložení do lokálních proměnných
@@ -101,26 +117,29 @@ def knn(request):
     input_ids = [item for sublist in ids for item in sublist]
     input_songs = [item for sublist in songs for item in sublist]
 
-    # pokud user dá like na písničky, vezmeme je a přidáme k předchozím
     likeList = request.POST.getlist('likeList')
-    banned = []
+    if 'banned' in request.session:
+        banned = request.session.get('banned')
+    else: 
+        banned = []
+    #print(banned)
     if likeList:
         #context['likeList'] = likeList
+        #print(likeList)
         rec_ids = request.session.get('rec_ids')
         rec_artists = request.session.get('rec_artists')
         rec_songs = request.session.get('rec_songs')
-        input_ids, input_artists, input_songs, banned = knn_model.add_recommended(input_ids,input_artists,input_songs,rec_ids,rec_artists,rec_songs,likeList)
+        input_ids, input_artists, input_songs, banned = knn_model.add_recommended(input_ids,input_artists,input_songs,rec_ids,rec_artists,rec_songs,likeList,banned=banned)
+        request.session['banned'] = banned
         
-        print(len(input_ids))
-        print(len(input_songs))
 
     # recommentations
-    recommended = knn_model.recommend_knn(input_ids, input_artists)
+    rec_ids = wv.w2v_recommend(input_ids,disliked=banned)
     #recommended = knn_model.recommend_knn(input_ids, input_artists,banned)
     # uložení do listů
-    rec_ids = recommended['track_id']
-    rec_songs = recommended['track_name']
-    rec_artists = recommended['artist_name']
+    data = sc.read_data()
+    rec_songs, rec_artists = sc.idtonames(data,rec_ids)
+
     # uložení do kontextu pro výpis
     context['input_songs'] = input_songs
     context['input_artists'] = input_artists
@@ -130,29 +149,12 @@ def knn(request):
     context['all'] = recommended_list
 
     # a ještě uložení do request.session, abychom mohli dávat nové recommendations
-    request.session['rec_ids'] = rec_ids.tolist()
-    request.session['rec_artists'] = rec_artists.tolist()
-    request.session['rec_songs'] = rec_songs.tolist()
+    request.session['rec_ids'] = rec_ids
+    request.session['rec_artists'] = rec_artists
+    request.session['rec_songs'] = rec_songs
     # a uložení pro KNN?
     request.session['chosen_artists'] = input_artists
     request.session['chosen_ids'] = [input_ids]
     request.session['chosen_songs'] = [input_songs]
 
-    # a render...
-    return render(request, 'model/knn.html', context)
-
-def model(request):
-    data = sc.read_data()
-    nm = request.POST.get('test')
-    if nm:
-        n = 10
-        how_many, rand_sample = sc.find_artist(nm,data,n)
-        values = rand_sample.values
-
-    context = pages
-    if nm:
-        context['name'] = nm
-        context['number'] = how_many
-        context['values'] = values
-
-    return render(request, 'model/test.html', context)
+    return render(request, 'word2vec/w2v_model.html', context)

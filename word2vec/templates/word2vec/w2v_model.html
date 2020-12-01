@@ -8,7 +8,7 @@
 <html>
 
 <head>
-    <title>KNN model</title>
+    <title>Word2Vec model</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="{% static 'blog/assets/css/main.css' %}" />
@@ -58,8 +58,8 @@
             <ul class="links">
                 <li><a href="../../#main">{{ home }}</a></li>
 				<li><a href="../../model">{{ random }}</a></li>
-				<li class="active"><a href="../../model/checklist">{{ knn }}</a></li>
-				<li><a href="../../word2vec/checklist">{{ w2v }}</a></li>
+				<li><a href="../../model/checklist">{{ knn }}</a></li>
+				<li class="active"><a href="../../word2vec/checklist">{{ w2v }}</a></li>
 				<li><a href="../../about">{{ about }}</a></li>
             </ul>
             <ul class="icons">
@@ -76,7 +76,7 @@
             <!-- Post -->
             <section class="post">
                 <header class="major">
-                    <h1>KNN model</h1>
+                    <h1>Word2Vec model</h1>
                 </header>
 
 
@@ -144,7 +144,7 @@
                 <p>If you want to get more (and better) recommendations simply click the <i class="far fa-heart"></i> icon. This will add songs you like to your list and you can recalculate your recommendations to get even more amazing songs tailored just for you...</p>
                 {% for x,y,z in all %}
                 <form method="post" action="">
-                <p><strong>{{z}}:</strong> {{y}}</p>
+                <p><strong>{{z}}</strong>: {{y}}</p>
                 <div class="row">
                     <div class="col-6 col-12-small">
                         <p>

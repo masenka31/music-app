@@ -8,12 +8,13 @@
 <html>
 
 <head>
-    <title>KNN Model</title>
+    <title>Word2Vec Model</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="{% static 'blog/assets/css/main.css' %}" />
     <noscript>
-        <link rel="stylesheet" href="{% static 'blog/assets/css/noscript.css' %}" /></noscript>
+        <link rel="stylesheet" href="{% static 'blog/assets/css/noscript.css' %}" />
+    </noscript>
     <link href="https://fonts.googleapis.com/icon?faily=Material+Icons" rel='stylesheet'>
 </head>
 
@@ -43,8 +44,8 @@
             <ul class="links">
                 <li><a href="../../#main">{{ home }}</a></li>
 				<li><a href="../../model">{{ random }}</a></li>
-				<li class="active"><a href="../../model/checklist">{{ knn }}</a></li>
-				<li><a href="../../word2vec/checklist">{{ w2v }}</a></li>
+				<li><a href="../../model/checklist">{{ knn }}</a></li>
+				<li class="active"><a href="../../word2vec/checklist">{{ w2v }}</a></li>
 				<li><a href="../../about">{{ about }}</a></li>
             </ul>
             <ul class="icons">
@@ -61,17 +62,18 @@
             <!-- Post -->
             <section class="post">
                 <header class="major">
-                    <h1>KNN Model</h1>
+                    <h1>Word2Vec Model</h1>
                 </header>
 
+                <h2>How does it work?</h2>
+                <p>Well...</p>
                 <!-- Text stuff -->
                 <p>This is a page that uses autocomplete search to help you search for songs in our database.
                     Simply start typing and choose artist from the dynamically appearing list.
                     When you choose your desired artist, submit your search and see all their songs in our database.</p>
                 <p>What next? Choose the songs you like and we will add them to your favourites list. This is a list
                     that will be used to recommend new songs for you. Save your list and if you've not chosen enough
-                    songs,
-                    just start searching for another artist.</p>
+                    songs, just start searching for another artist.</p>
                 <p>When you're ready, click on <strong>Take me to my recommendations</strong> and marvel at the magical
                     algorithm.</p>
             </section>
@@ -246,7 +248,7 @@
                     }
                 </script>
                 <p>
-                    <a href="../knn" class="button primary large">Take me to my recommendations...</a>
+                    <a href="../w2v_model" class="button primary large">Take me to my recommendations...</a>
                 </p>
                 {% endif %}
 
