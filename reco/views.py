@@ -16,6 +16,7 @@ pages = {
         'random': 'Random Model',
         'knn': 'KNN Model',
         'w2v': 'Word2Vec',
+        'als': 'ALS Model',
         'about': 'Our Story',
 }
 
@@ -143,7 +144,7 @@ def recommendations(request):
         rec_ids = wv.w2v_recommend(input_ids,disliked=banned)
     elif model == "knn":
         recommended = knn_model.recommend_knn(input_ids, input_artists)
-        rec_ids = recommended['track_id']
+        rec_ids = recommended['track_id'].tolist()
     elif model == "als":
         model_name = "ALS model"
     else:
@@ -180,7 +181,7 @@ def recommendations(request):
     else:
         model_name = "Random model"
 
-    context['model_name'] = model_name
+    #context['model_name'] = model_name
 
     ### render
     return render(request, 'recommendations.html', context)

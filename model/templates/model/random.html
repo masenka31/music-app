@@ -30,11 +30,12 @@
 		<!-- Nav -->
 		<nav id="nav">
 			<ul class="links">
-                <li><a href="../#main">{{ home }}</a></li>
-				<li class="active"><a href="../model">{{ random }}</a></li>
-				<li><a href="../model/checklist">{{ knn }}</a></li>
-				<li><a href="../word2vec/checklist">{{ w2v }}</a></li>
-				<li><a href="../about">{{ about }}</a></li>
+                <li><a href="../../#main">{{ home }}</a></li>
+				<li class="active"><a href="../random">{{ random }}</a></li>
+				<li><a href="../knn">{{ knn }}</a></li>
+				<li><a href="../word2vec">{{ w2v }}</a></li>
+                <li><a href="../als">{{ als }}</a></li>
+				<li><a href="../../about">{{ about }}</a></li>
 			</ul>
 			<ul class="icons">
 				<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
@@ -76,7 +77,7 @@
                 <h4>Generating new songs for your playlist...</h4>
                 <p>
                 {% for row in values %}
-                {{ row.0 }} - {{ row.1 }}<br>
+                {{ row.1 }} - {{ row.2 }}<br>
                 {% endfor %}
                 </p>
             </section>

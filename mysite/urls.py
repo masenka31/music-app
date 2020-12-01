@@ -21,6 +21,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('home.urls')),
     path('model/', include('model.urls')),
-    path('word2vec/', include('word2vec.urls')),
     path('',include('reco.urls'))
 ]

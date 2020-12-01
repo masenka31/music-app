@@ -6,6 +6,7 @@ pages = {
         'random': 'Random Model',
         'knn': 'KNN Model',
         'w2v': 'Word2Vec',
+        'als': 'ALS Model',
         'about': 'Our Story',
 }
 

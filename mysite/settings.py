@@ -35,7 +35,6 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'home.apps.HomeConfig',
     'model.apps.ModelConfig',
-    'word2vec.apps.Word2VecConfig',
     'reco.apps.RecoConfig',
     'django.contrib.admin',
     'django.contrib.auth',

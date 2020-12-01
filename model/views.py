@@ -16,6 +16,7 @@ pages = {
         'random': 'Random Model',
         'knn': 'KNN Model',
         'w2v': 'Word2Vec',
+        'als': 'ALS Model',
         'about': 'Our Story',
 }
 
@@ -25,6 +26,7 @@ pages = {
 def knn(request):
     # context jako vždy
     context = pages
+    request.session['model'] = "knn"
 
     # a render...
     return render(request, 'model/knn.html', context)
@@ -43,12 +45,16 @@ def random(request):
         context['number'] = how_many
         context['values'] = values
 
+    request.session['model'] = "random"
+
     return render(request, 'model/random.html', context)
 
 def word2vec(request):
     context = pages
+    request.session['model'] = "word2vec"
     return render(request,'model/word2vec.html',context)
 
 def als(request):
     context = pages
+    request.session['model'] = "als"
     return render(request, 'model/als.html', context)
