@@ -37,16 +37,15 @@
             <a href="../#main" class="logo">{{ title }}</a>
         </header>
 
-
         <!-- Nav -->
         <nav id="nav">
             <ul class="links">
                 <li><a href="../#main">{{ home }}</a></li>
-				<li><a href="../model/random">{{ random }}</a></li>
-				<li><a href="../model/knn">{{ knn }}</a></li>
-				<li><a href="../model/word2vec">{{ w2v }}</a></li>
+                <li><a href="../model/random">{{ random }}</a></li>
+                <li><a href="../model/knn">{{ knn }}</a></li>
+                <li><a href="../model/word2vec">{{ w2v }}</a></li>
                 <li><a href="../model/als">{{ als }}</a></li>
-				<li><a href="../about">{{ about }}</a></li>
+                <li><a href="../about">{{ about }}</a></li>
             </ul>
             <ul class="icons">
                 <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
@@ -105,15 +104,19 @@
 
                 <div class="col-6">
                     <form method="post" action="#">
-                        <div class="col-12">
-                            {% csrf_token %}
-                            <select name="model_choice" id="model_choice">
-                                <option value="random">Random Model</option>
-                                <option value="knn">KNN Model</option>
-                                <option value="word2vec">Word2Vec Model</option>
-                                <option value="als">ALS Model</option>
-                            </select>
-                        </div>
+                        <div class="row">
+                            <div class="col-6 small">
+                                {% csrf_token %}
+                                <select name="model_choice" id="model_choice">
+                                    <option value="random">Random Model</option>
+                                    <option value="knn">KNN Model</option>
+                                    <option value="word2vec">Word2Vec Model</option>
+                                    <option value="als">ALS Model</option>
+                                </select>
+                            </div>
+                            <div class="col-6 small">
+                                <button class="primary" type="submit" action="#">Save</button>
+                            </div>
                     </form>
                 </div>
             </section>
@@ -133,12 +136,6 @@
                     }
                 }
             </script>
-
-            <!--
-            <script>
-                document.getElementById("trick").innerHTML = "Hello";
-                var sel = document.getElementById('model_choice');
-            </script>-->
 
             <section class="post">
                 <p>Choose artists and then songs from database: </p>
@@ -310,7 +307,8 @@
                     }
                 </script>
                 <p>
-                    <a href="../recommendations" class="button primary large" type="submit">Take me to my recommendations...</a>
+                    <a href="../recommendations" class="button primary large" type="submit">Take me to my
+                        recommendations...</a>
                 </p>
                 {% endif %}
 

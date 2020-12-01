@@ -44,7 +44,12 @@ def checklist(request):
         request.session['model'] = model
     else:
         model = request.session.get('model')
- 
+
+    model_request = request.POST.get('model_choice')
+    if model_request:
+        model = model_request
+        request.session['model'] = model
+
     if model == "word2vec":
         model_name = "Word2Vec model"
     elif model == "knn":
@@ -114,11 +119,6 @@ def recommendations(request):
     input_artists = request.session.get('chosen_artists')
     songs = request.session.get('chosen_songs')
 
-    ### TBD
-    # request.POST z přechozího?
-    # model = request.POST.get('model_choice')
-    # print(model)
-
     # collect (kvůli blbé funkčnosti append)
     input_ids = [item for sublist in ids for item in sublist]
     input_songs = [item for sublist in songs for item in sublist]
@@ -130,8 +130,6 @@ def recommendations(request):
         banned = []
     #print(banned)
     if likeList:
-        #context['likeList'] = likeList
-        #print(likeList)
         rec_ids = request.session.get('rec_ids')
         rec_artists = request.session.get('rec_artists')
         rec_songs = request.session.get('rec_songs')
@@ -140,11 +138,13 @@ def recommendations(request):
         
     ### give recommendations
     model = request.session.get('model')
+    print(model)
     if model == "word2vec":
         rec_ids = wv.w2v_recommend(input_ids,disliked=banned)
     elif model == "knn":
         recommended = knn_model.recommend_knn(input_ids, input_artists)
         rec_ids = recommended['track_id'].tolist()
+    #TBD
     elif model == "als":
         model_name = "ALS model"
     else:
