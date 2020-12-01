@@ -54,9 +54,7 @@ def w2v_checklist(request):
     # a JSON dump pro JS
     # tohle taky zůstane v contextu
     context['artists_autocomplete'] = art_list # tohle se posílá JS
-    print(context.keys())
-    context['keys'] = context.keys()
- 
+
     ## RESET SONGŮ ----------------------------------------------------------------------
     # pokud od uživatele dostanu klik na tlačítko RESET
     delete_input = request.POST.get('delete_input')
@@ -69,6 +67,7 @@ def w2v_checklist(request):
         request.session['chosen_artists'] = []
         request.session['chosen_ids'] = []
         request.session['chosen_songs'] = []
+        request.session['banned'] = []
         if 'art_name' in request.session.keys():
             del request.session['art_name']
         # tohle zůstane v contextu, protože se to přenáší do HTML přímo
@@ -119,17 +118,23 @@ def w2v_model(request):
     input_songs = [item for sublist in songs for item in sublist]
 
     likeList = request.POST.getlist('likeList')
-    banned = []
+    if 'banned' in request.session:
+        banned = request.session.get('banned')
+    else: 
+        banned = []
+    #print(banned)
     if likeList:
         #context['likeList'] = likeList
+        #print(likeList)
         rec_ids = request.session.get('rec_ids')
         rec_artists = request.session.get('rec_artists')
         rec_songs = request.session.get('rec_songs')
-        input_ids, input_artists, input_songs, banned = knn_model.add_recommended(input_ids,input_artists,input_songs,rec_ids,rec_artists,rec_songs,likeList)
-
+        input_ids, input_artists, input_songs, banned = knn_model.add_recommended(input_ids,input_artists,input_songs,rec_ids,rec_artists,rec_songs,likeList,banned=banned)
+        request.session['banned'] = banned
+        
 
     # recommentations
-    rec_ids = wv.w2v_recommend(input_ids)
+    rec_ids = wv.w2v_recommend(input_ids,disliked=banned)
     #recommended = knn_model.recommend_knn(input_ids, input_artists,banned)
     # uložení do listů
     data = sc.read_data()

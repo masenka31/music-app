@@ -25,8 +25,7 @@ def recommend_knn(input_ids, input_artists,prev_banned=[]):
 
     return rec_songs
 
-def add_recommended(input_ids,input_artists,input_songs,rec_ids,rec_artists,rec_songs,likeList):
-    banned = []
+def add_recommended(input_ids,input_artists,input_songs,rec_ids,rec_artists,rec_songs,likeList,banned=[]):
     for index in range(0,len(likeList)):
         if likeList[index] == 'true':
             #print(rec_ids[index])

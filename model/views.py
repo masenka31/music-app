@@ -9,14 +9,6 @@ import w2v as wv
 import pandas as pd
 from json import dumps
 
-pages = {
-        'title': 'Know Your Music',
-        'main': 'About',
-        'first': 'Random Model',
-        'second': 'KNN Model',
-        'third': 'Our Story',
-        'fourth': 'Spotify',
-}
 
 pages = {
         'title': 'Know Your Music',

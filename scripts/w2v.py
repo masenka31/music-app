@@ -14,9 +14,12 @@ stat(masa_list) """
 
 w2v_model = KeyedVectors.load("data/model.model", mmap='r')
 
-def w2v_recommend(ids,n=10):
+def w2v_recommend(ids,n=10,disliked=[]):
     w2v_model = KeyedVectors.load("data/model.model", mmap='r')
-    rec = w2v_model.most_similar(positive=ids, topn=n)
+    if disliked:
+        rec = w2v_model.most_similar(positive=ids, negative=disliked, topn=n)
+    else:
+        rec = w2v_model.most_similar(positive=ids, topn=n)
     rec_ids = [i[0] for i in rec]
     #ratings = [i[1] for i in rec]
     return rec_ids#, ratings
