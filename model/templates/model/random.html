@@ -38,10 +38,7 @@
 				<li><a href="../../about">{{ about }}</a></li>
 			</ul>
 			<ul class="icons">
-				<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-				<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-				<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-				<li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+				<li><a href="https://github.com/masenka31/music-app" class="icon brands alt fa-github" target="_blank"><span class="label">GitHub</span></a></li>
 			</ul>
 		</nav>
 
@@ -55,33 +52,12 @@
 				</header>
 
 				<!-- Text stuff -->
-				<p>This model will ask you for your favourite artist and return 10 random songs chosen from our database.
-                </p>
+				<p>You stand before the most basic and stupid model we could create. If you wish to take a chance - go for it. Random
+				model will sample 10 random songs from our dataset. Maybe you will be lucky. Maybe not. See for yourself.</p>
+				<p>
+				<a href="../../recommendations" class="button large">I choose you!</a>
+				</p>
             </section>
-            
-            <section>
-                <h4>Enter your favourite artist:</h4>
-                <form method="post" action="#">
-                    {% csrf_token %}
-                    <input type="text" name="test">    
-                <ul class="actions">
-                    <li><input type="submit" value="Save"></input></li>
-                </ul>
-                </form>
-            </section>
-            {% if name %}
-            <section>
-                <h4>Summary: </h4>
-                <p>Your chosen artist name is: <strong>{{ name }}</strong>.<br>
-                This name was found in our database: <strong>{{ number }}</strong> times.</p>
-                <h4>Generating new songs for your playlist...</h4>
-                <p>
-                {% for row in values %}
-                {{ row.1 }} - {{ row.2 }}<br>
-                {% endfor %}
-                </p>
-            </section>
-            {% endif %}
 
 		</div>
 

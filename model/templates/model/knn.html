@@ -31,14 +31,17 @@
         border-bottom-color: transparent;
         text-shadow: 1px 1px 1px black;
     }
-    i.disabled{
+
+    i.disabled {
         opacity: 0.2
     }
-    i.ban{
+
+    i.ban {
         color: #8f384d;
     }
-    i.checked{
-        color:green;
+
+    i.checked {
+        color: green;
     }
 </style>
 
@@ -57,17 +60,14 @@
         <nav id="nav">
             <ul class="links">
                 <li><a href="../../#main">{{ home }}</a></li>
-				<li><a href="../random">{{ random }}</a></li>
-				<li class="active"><a href="../knn">{{ knn }}</a></li>
-				<li><a href="../word2vec">{{ w2v }}</a></li>
+                <li><a href="../random">{{ random }}</a></li>
+                <li class="active"><a href="../knn">{{ knn }}</a></li>
+                <li><a href="../word2vec">{{ w2v }}</a></li>
                 <li><a href="../als">{{ als }}</a></li>
-				<li><a href="../../about">{{ about }}</a></li>
+                <li><a href="../../about">{{ about }}</a></li>
             </ul>
             <ul class="icons">
-                <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-                <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-                <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-                <li><a href="#" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+                <li><a href="https://github.com/masenka31/music-app" class="icon brands alt fa-github" target="_blank"><span class="label">GitHub</span></a></li>
             </ul>
         </nav>
 
@@ -80,19 +80,22 @@
                     <h1>KNN model</h1>
                 </header>
 
-            <p>
-            KNN model is based on blah blah blah...
-            </p>
+                <p>
+                    KNN model is based on blah blah blah...</p><p>
+                    <a class="button large" href="../../checklist">I choose you!</a>
+                </p>
 
-            <!-- Copyright -->
-            <div id="copyright">
-                <ul>
-                    <li>&copy; Untitled</li>
-                    <li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
-                </ul>
-            </div>
 
         </div>
+
+        <!-- Copyright -->
+        <div id="copyright">
+            <ul>
+                <li>&copy; Untitled</li>
+                <li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+            </ul>
+        </div>
+
 
         <!-- Scripts -->
         <script src="{% static 'blog/assets/js/jquery.min.js' %}"></script>
@@ -102,6 +105,8 @@
         <script src="{% static 'blog/assets/js/breakpoints.min.js' %}"></script>
         <script src="{% static 'blog/assets/js/util.js' %}"></script>
         <script src="{% static 'blog/assets/js/main.js' %}"></script>
+
+    </div>
 
 </body>
 

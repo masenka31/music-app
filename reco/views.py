@@ -5,6 +5,7 @@ new_path = os.path.dirname(os.path.realpath(__file__)) + '/../scripts/'
 sys.path.append(new_path)
 import test_script as sc
 import knn_script as knn_model
+import als_script as als
 import w2v as wv
 import pandas as pd
 from json import dumps
@@ -146,8 +147,11 @@ def recommendations(request):
         rec_ids = recommended['track_id'].tolist()
     #TBD
     elif model == "als":
+        rec_ids = als.recommend_als(input_ids,disliked=banned)
         model_name = "ALS model"
     else:
+        data = sc.read_data()
+        rec_ids = data.sample(10)['track_id'].tolist()
         model_name = "Random model"
 
     data = sc.read_data()
@@ -181,7 +185,7 @@ def recommendations(request):
     else:
         model_name = "Random model"
 
-    #context['model_name'] = model_name
+    context['model_name'] = model_name
 
     ### render
     return render(request, 'recommendations.html', context)
