@@ -135,6 +135,9 @@ def recommendations(request):
     input_artists = request.session.get('chosen_artists')
     songs = request.session.get('chosen_songs')
     slider_tmp = request.session.get('slider_value')
+    if not slider_tmp:
+        slider_tmp = 0
+        request.session['slider_value'] = 0
     slider_value = sl.crop_slider(slider_tmp)
 
     # collect (kvůli blbé funkčnosti append)
