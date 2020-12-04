@@ -6,10 +6,10 @@ sys.path.append(new_path)
 import test_script as sc
 import knn_script as knn_model
 import als_script as als
+import slider as sl
 import w2v as wv
 import pandas as pd
 from json import dumps
-
 
 pages = {
         'title': 'Know Your Music',
@@ -23,6 +23,19 @@ pages = {
 
 
 # Create your views here.
+
+def slider(request):
+    context = pages
+    
+    slider_value = request.POST.get('slider_value')
+    if not slider_value:
+        slider_value = request.session.get('slider_value')
+
+    request.session['slider_value'] = slider_value
+    context['slider_value'] = slider_value
+    print(slider_value)
+
+    return render(request, 'reco/slider.html', context)
 
 def checklist(request):
     ## ZÁKLADNÍ NAČTENÍ DAT ATD. ------------------------------------------------------
@@ -119,6 +132,8 @@ def recommendations(request):
     ids = request.session.get('chosen_ids')
     input_artists = request.session.get('chosen_artists')
     songs = request.session.get('chosen_songs')
+    slider_tmp = request.session.get('slider_value')
+    slider_value = sl.crop_slider(slider_tmp)
 
     # collect (kvůli blbé funkčnosti append)
     input_ids = [item for sublist in ids for item in sublist]
@@ -141,11 +156,13 @@ def recommendations(request):
     model = request.session.get('model')
     print(model)
     if model == "word2vec":
-        rec_ids = wv.w2v_recommend(input_ids,disliked=banned)
+        #rec_ids = wv.w2v_recommend(input_ids,disliked=banned)
+        data_genre = sc.read_data(genre=True)
+        rec_ids = sl.predict_user_list(input_ids,data_genre,randomness=slider_value)
+        print(rec_ids)
     elif model == "knn":
         recommended = knn_model.recommend_knn(input_ids, input_artists)
         rec_ids = recommended['track_id'].tolist()
-    #TBD
     elif model == "als":
         rec_ids = als.recommend_als(input_ids,disliked=banned)
         model_name = "ALS model"
@@ -154,7 +171,7 @@ def recommendations(request):
         rec_ids = data.sample(10)['track_id'].tolist()
         model_name = "Random model"
 
-    data = sc.read_data()
+    data = sc.read_data(genre=False)
     rec_songs, rec_artists = sc.idtonames(data,rec_ids)
 
     ### Save and view data

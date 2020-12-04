@@ -2,8 +2,11 @@ import os
 import pandas as pd
 import random
 
-def read_data():
-    data = pd.read_csv('data/song_info_v1.4.csv', usecols=["track_id", "track_name", "artist_name"])
+def read_data(genre=False):
+    if genre:
+        data = pd.read_csv('data/song_info_genre_v1.5.csv')
+    else:
+        data = pd.read_csv('data/song_info_v1.5.csv', usecols=["track_id", "track_name", "artist_name"])
     return data
 
 def find_artist(name, data,n):
