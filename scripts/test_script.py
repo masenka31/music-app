@@ -39,3 +39,15 @@ def idtonames(data,ids):
     song_names = df['track_name'].tolist()
     artists = df['artist_name'].tolist()
     return song_names, artists
+
+def which_model(model):
+    if model == "word2vec":
+        model_name = "Word2Vec model"
+    elif model == "knn":
+        model_name = "KNN model"
+    elif model == "als":
+        model_name = "ALS model"
+    else:
+        model_name = "Random model"
+
+    return model_name

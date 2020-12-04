@@ -18,38 +18,6 @@
     <link href="https://fonts.googleapis.com/icon?faily=Material+Icons" rel='stylesheet'>
 </head>
 
-<style>
-    .slidecontainer {
-        width: 50%;
-        /* Width of the outside container */
-    }
-
-    /* The slider itself */
-    .slider {
-        -webkit-appearance: none;
-        /* Override default CSS styles */
-        appearance: none;
-        width: 50%;
-        /* Full-width */
-        height: 5px;
-        /* Specified height */
-        background: #d3d3d3;
-        /* Grey background */
-        outline: none;
-        /* Remove outline */
-        opacity: 0.7;
-        /* Set transparency (for mouse-over effects on hover) */
-        -webkit-transition: .2s;
-        /* 0.2 seconds transition on hover */
-        transition: opacity .2s;
-    }
-
-    /* Mouse-over effects */
-    .slider:hover {
-        opacity: 1;
-        /* Fully shown on mouse-over */
-    }
-</style>
 
 <body class="is-preload">
 
@@ -70,6 +38,7 @@
                 <li><a href="../knn">{{ knn }}</a></li>
                 <li class="active"><a href="../word2vec">{{ w2v }}</a></li>
                 <li><a href="../als">{{ als }}</a></li>
+                <li><a href="../../slider">{{slider}}</a></li>
                 <li><a href="../../about">{{ about }}</a></li>
             </ul>
             <ul class="icons">
@@ -84,25 +53,33 @@
                 <header class="major">
 
 
-                    <h1>Surprise slider</h1>
+                    <h1>Word2Vec Model</h1>
                 </header>
-                <p>We know your struggle. Sometimes you want to find soungs you've never heard before. Maybe
-                    songs which can suprise you. Our surprise slider is here to help. Simply choose how much
-                    you want to be surprised. No surprises? Just put it to 0 %.
+                <p>This technique was developed by a team of Google researchers led by Tomas Mikolov.
+                    The patented algorithm was initially used in natural language processing to learn word
+                    associations.
                 </p>
-
-                <form method="post">
-                    <div class="col">
-                        <input type="range" min="0" max="100" value="10" class="slider" id="sliderRange"
-                            name="slider_value">
-                        <p>Rate of surprise: <strong><span id="demo"></span> %</strong>.</p>
+                <p>
+                    Neural networks in this model learn associations between words from sentences. However
+                    the same approach can be used in music recommendation - just imagine playlists as sentences
+                    and songs in those playlists as words.
+                </p>
+                <h2>
+                    Do you like this model?
+                </h2>
+                <div class="row">
+                    <div class="col-6 col-12-small">
+                        <ul class="actions stacked">
+                            <li><a href="../../checklist" class="button primary fit">Yes, I choose Word2Vec!</a></li>
+                        </ul>
                     </div>
-                    {% csrf_token %}
-                    <button class="primary" action="" type="submit">Save</button>
-                </form>
+                    <div class="col-6 col-12-small">
+                        <ul class="actions stacked">
+                            <li><a href="../als" class="button primary fit">No, I want something else...</a></li>
+                        </ul>
+                    </div>
+                </div>
 
-                <p>Word2Vec model:</p>
-                <p><a class="button large" href="../../checklist">I choose you!</a></p>
             </section>
         </div>
 

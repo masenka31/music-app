@@ -40,15 +40,17 @@
 		<!-- Nav -->
 		<nav id="nav">
 			<ul class="links">
-                <li class="active"><a href="#main">{{ home }}</a></li>
+				<li class="active"><a href="#main">{{ home }}</a></li>
 				<li><a href="model/random">{{ random }}</a></li>
 				<li><a href="model/knn">{{ knn }}</a></li>
 				<li><a href="model/word2vec">{{ w2v }}</a></li>
-                <li><a href="model/als">{{ als }}</a></li>
+				<li><a href="model/als">{{ als }}</a></li>
+				<li><a href="slider">{{slider}}</a></li>
 				<li><a href="about">{{ about }}</a></li>
 			</ul>
 			<ul class="icons">
-				<li><a href="https://github.com/masenka31/music-app" class="icon brands alt fa-github" target="_blank"><span class="label">GitHub</span></a></li>
+				<li><a href="https://github.com/masenka31/music-app" class="icon brands alt fa-github"
+						target="_blank"><span class="label">GitHub</span></a></li>
 			</ul>
 		</nav>
 
@@ -58,50 +60,60 @@
 			<!-- Featured Post -->
 			<article class="post featured">
 				<header class="major">
-					<span class="date">October 10, 2020</span>
+					<span class="date">December 17, 2020</span>
 					<h2>{{ title }} App</h2>
-					<p>An app that let's you create music based on your taste. Have a playlist you want to expand but
+					<p>An app that let's you find music based on your taste. Have a playlist you want to expand but
 						feeling tired to browse millions of songs? We've got you covered.
 						Just submit your playlist and our algorithm will do the rest for you!</p>
 				</header>
-				<ul class="actions special">
-					<li><a href="../about" class="button large">Our Story</a></li>
-				</ul>
-			</article>
-			<article class="post featured">
-				<header class="major">
-					<h2>What is it about?</h2>
-					<p>The power of machine learning...</p>
-				</header>
+				<h2 id="models">What is it about?</h2>
 				<p>Say you are tired of listening to the same songs over and over again. You want something fresh,
 					something new, something you've never heard before.
 					That's where our app comes in. Based on powerfull machine learning algorithms we can recommend songs
 					you'll like but probably didn't come
 					across yet.</p>
 
-				<h3>Implemented models</h3>
-				<p>Maybe you want to know more about the magic behind the scenes. We get it. Our models are not supposed to be blackboxes,
-				if you want to understand them, you can.</p>
-				<p>The first model is a random model. Sure, it doesn't do anything good, but you know - baby steps. Random model simply samples
-				10 IDs randomly from our database. That simple.</p>
-				<p>KNN model is much more interesting. You may have heard about neirest neighbours algorithm which is part of this model.
-				We have a dataset with user-song interactions. Thank to this algorithm we can take your chosen songs and find a user most
-				similar to you. Then the model can recommend new songs based on this similarity.</p>
-				<p>And last but not least... Word2Vec model. This model is most used in NLP (natural language processing) and has the power to find
-				similar words in sentences. If we take playlists as sentences and songs as words, we can use Word2Vec for recommendation.</p>
-				<p>Now you know everything you need to explore your custom recommendations. Let's go!</p>
-				<ul class="actions special">
-					<li><a href="model/random" class="button large">Random Model</a></li>
-					<li><a href="model/knn" class="button large">KNN Model</a></li>
-					<li><a href="model/word2vec" class="button large">Word2Vec Model</a></li>
-					<li><a href="model/als" class="button large">ALS Model</a></li>
-				</ul>
+				<h2>Implemented models</h2>
+				<p>
+					We have four different models you can choose from. Random model is well... random.
+					KNN model finds users with similar tastes as you. Word2Vec tries to find associations
+					between your chosen songs and songs you could like. And ALS model...
+				</p>
+
+				<div class="row">
+					<div class="col-6 col-12-small">
+						<ul class="actions stacked">
+							<li><a href="model/random" class="button large fit">Random Model</a></li>
+							<li><a href="model/knn" class="button large fit">KNN Model</a></li>
+						</ul>
+					</div>
+					<div class="col-6 col-12-small">
+						<ul class="actions stacked">
+							<li><a href="model/word2vec" class="button large fit">Word2Vec Model</a></li>
+							<li><a href="model/als" class="button large fit">ALS Model</a></li>
+						</ul>
+					</div>
+				</div>
 			</article>
 			<article>
-			<header><h3>Github repository</h3></header>
-			<p>
-			This webpage was made with Django. Repository is publicly available at <a href="https://github.com/masenka31/music-app" target="_blank">music-app</a>.
-			</p>
+				<div class="row">
+					<div class="col-6">
+						<h2>About Project</h2>
+						<p>
+							We are just a team of four students who wanted to give their best in a university
+							course called Data Science.
+						</p>
+						<a href="../about" class="button large fit">Our Story</a>
+					</div>
+					<div class="col-6">
+						<h2>Github repository</h2>
+						<p>
+							This webpage was made with Django. Repository is publicly available at:</p>
+						<a class="button large fit" href="https://github.com/masenka31/music-app"
+							target="_blank">music-app</a>
+
+					</div>
+				</div>
 			</article>
 		</div>
 

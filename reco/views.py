@@ -18,6 +18,7 @@ pages = {
         'knn': 'KNN Model',
         'w2v': 'Word2Vec',
         'als': 'ALS Model',
+        'slider': 'Surprise',
         'about': 'Our Story',
 }
 
@@ -26,6 +27,9 @@ pages = {
 
 def slider(request):
     context = pages
+    model = request.session.get('model')
+    if model:
+        context['model_name'] = sc.which_model(model)
     
     slider_value = request.POST.get('slider_value')
     if not slider_value:
@@ -64,14 +68,7 @@ def checklist(request):
         model = model_request
         request.session['model'] = model
 
-    if model == "word2vec":
-        model_name = "Word2Vec model"
-    elif model == "knn":
-        model_name = "KNN model"
-    elif model == "als":
-        model_name = "ALS model"
-    else:
-        model_name = "Random model"
+    model_name = sc.which_model(model)
 
     context['model_name'] = model_name
     context['modelJS'] = dumps(model)
@@ -92,6 +89,11 @@ def checklist(request):
         # tohle zůstane v contextu, protože se to přenáší do HTML přímo
         context['ready'] = False
         context['pasted'] = False
+
+    slider_value = request.session.get('slider_value')
+    if slider_value:
+        context['slider_value'] = slider_value
+    print(slider_value)
     
     ## VYBÍRÁNÍ PÍSNIČEK Z DATABÁZE PŘI ZADÁNÍ UMĚLCE --------------------------------------------
     # pokud člověk zadá umělce, uloží se do art_name
@@ -158,7 +160,7 @@ def recommendations(request):
     if model == "word2vec":
         #rec_ids = wv.w2v_recommend(input_ids,disliked=banned)
         data_genre = sc.read_data(genre=True)
-        rec_ids = sl.predict_user_list(input_ids,data_genre,randomness=slider_value)
+        rec_ids = sl.predict_user_list(input_ids,data_genre,randomness=slider_value,k=10)
         print(rec_ids)
     elif model == "knn":
         recommended = knn_model.recommend_knn(input_ids, input_artists)
@@ -206,3 +208,26 @@ def recommendations(request):
 
     ### render
     return render(request, 'recommendations.html', context)
+
+def recommendations_random(request):
+    ### Get data / change data / do magic with data
+    # context jako vždy
+    context = pages
+
+    ### give recommendations
+    model = request.session.get('model')
+    print(model)
+    data = sc.read_data()
+    rec_ids = data.sample(10)['track_id'].tolist()
+    model_name = "Random model"
+    rec_songs, rec_artists = sc.idtonames(data,rec_ids)
+
+    ### Save and view data
+    # zazipování, aby bylo možné data přenést do HTML
+    # a uložení do kontextu
+    recommended_list = zip(rec_ids, rec_songs, rec_artists)
+    context['all'] = recommended_list
+    context['model_name'] = model_name
+
+    ### render
+    return render(request, 'recommendations_random.html', context)

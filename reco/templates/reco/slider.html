@@ -8,7 +8,7 @@
 <html>
 
 <head>
-    <title>Word2Vec Model</title>
+    <title>Suprise Factor</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="{% static 'blog/assets/css/main.css' %}" />
@@ -29,7 +29,7 @@
         -webkit-appearance: none;
         /* Override default CSS styles */
         appearance: none;
-        width: 50%;
+        width: 100%;
         /* Full-width */
         height: 5px;
         /* Specified height */
@@ -65,12 +65,13 @@
         <!-- Nav -->
         <nav id="nav">
             <ul class="links">
-                <li><a href="../../#main">{{ home }}</a></li>
-                <li><a href="../random">{{ random }}</a></li>
-                <li><a href="../knn">{{ knn }}</a></li>
-                <li class="active"><a href="../word2vec">{{ w2v }}</a></li>
-                <li><a href="../als">{{ als }}</a></li>
-                <li><a href="../../about">{{ about }}</a></li>
+                <li><a href="../#main">{{ home }}</a></li>
+                <li><a href="../model/random">{{ random }}</a></li>
+                <li><a href="../model/knn">{{ knn }}</a></li>
+                <li><a href="../model/word2vec">{{ w2v }}</a></li>
+                <li><a href="../model/als">{{ als }}</a></li>
+                <li class="active"><a href="">{{slider}}</a></li>
+                <li><a href="../about">{{ about }}</a></li>
             </ul>
             <ul class="icons">
                 <li><a href="https://github.com/masenka31/music-app" class="icon brands alt fa-github"
@@ -90,19 +91,43 @@
                     songs which can suprise you. Our surprise slider is here to help. Simply choose how much
                     you want to be surprised. No surprises? Just put it to 0 %.
                 </p>
+                <p>Surprise factor doesn't affect Random model as Random model has probably 1000000% suprise
+                    factor :D
+                </p>
 
-                <form method="post">
-                    <div class="col">
-                        <input type="range" min="0" max="100" value="{{slider_value}}" class="slider" id="sliderRange"
-                            name="slider_value">
-                        <p>Rate of surprise: <strong><span id="demo"></span> %</strong>.</p>
+                <form method="post" id="form">
+                    <div class="row">
+                        <div class="col-6">
+                            <input type="range" min="0" max="100" value="{{slider_value}}" class="slider"
+                                id="sliderRange" name="slider_value">
+                            <p>Rate of surprise: <strong><span id="demo"></span> %</strong>.</p>
+                        </div>
+                        <div class="col">
+                            {% csrf_token %}
+                            <button class="primary" action="#form" type="submit">Save</button>
+                        </div>
                     </div>
-                    {% csrf_token %}
-                    <button class="primary" action="" type="submit">Save</button>
                 </form>
 
-                <p>Word2Vec model:</p>
-                <p><a class="button large" href="../../checklist">I choose you!</a></p>
+                {% if model_name == "Random model" %}
+                <p>Your currently chosen model is <strong>{{model_name}}</strong> therefore surprise factor
+                is not going to work on your recommendations. Do you wish to proceed?</p>
+                <ul class="actions special">
+                    <li>
+                        <a href="../recommendations_random" class="button primary fit">I'm ready! Take me to my
+                            recommendations...</a></li>
+                    <li>        <a href="../#models" class="button primary fit">I want to choose different model</a></li>
+                    
+                </ul>
+                {% else %}
+                <p>Your currently chosen model is <strong>{{model_name}}</strong> but you can change it in the next
+                    step. Do you wish to proceed?</p>
+                <ul class="actions special">
+                    <li>                        
+                        <a href="../checklist" class="button primary large" type="submit">I'm ready!</a>
+                    </li>
+                </ul>
+                {% endif %}
             </section>
         </div>
 

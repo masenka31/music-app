@@ -11,7 +11,7 @@ def model_pred(positive,negative=None,topn=20):
 
 
 def pred(lst_user,df,interpret_keep=3,count=40,genre_keep=False,tempo_keep=False):
-    df_pred=model_pred(lst_user,negative=None,topn=20)
+    df_pred=model_pred(lst_user,negative=None,topn=count)
     df_temp= df_pred.merge(df,on="track_id")
     ides=df_temp.drop_duplicates(subset='track_id').groupby('artist_name').head(interpret_keep).track_id.tolist()
     if not genre_keep:
@@ -33,7 +33,7 @@ def crop(df_temp,genre_keep=False,tempo_keep=False):
 
 
 
-def predict_user_list(my_list,df,randomness=0):
+def predict_user_list(my_list,df,randomness=0,k=20):
     interpret_keep_list=[3,2,2,1,1]
     genre_keep_list=[False,4,3,2,1]
     tempo_keep_list=[False,False,False,4,2]
@@ -41,7 +41,7 @@ def predict_user_list(my_list,df,randomness=0):
     return pred(my_list,df,
                 interpret_keep=interpret_keep_list[randomness],count=4000,
                 genre_keep=genre_keep_list[randomness],
-                tempo_keep=tempo_keep_list[randomness]).drop_duplicates(subset="track_id").track_id.tolist()[:20]
+                tempo_keep=tempo_keep_list[randomness]).drop_duplicates(subset="track_id").track_id.tolist()[:k]
 
 
 def crop_slider(slider_value):

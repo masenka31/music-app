@@ -8,7 +8,7 @@
 <html>
 
 <head>
-    <title>KNN model</title>
+    <title>Recommendations</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="{% static 'blog/assets/css/main.css' %}" />
@@ -52,23 +52,23 @@
 
         <!-- Header -->
         <header id="header">
-            <a href="../../#main" class="logo">{{ title }}</a>
+            <a href="../#main" class="logo">{{ title }}</a>
         </header>
 
 
         <!-- Nav -->
         <nav id="nav">
             <ul class="links">
-                <li><a href="../../#main">{{ home }}</a></li>
-                <li><a href="../random">{{ random }}</a></li>
-                <li class="active"><a href="../knn">{{ knn }}</a></li>
-                <li><a href="../word2vec">{{ w2v }}</a></li>
-                <li><a href="../als">{{ als }}</a></li>
-                <li><a href="../../slider">{{slider}}</a></li>
-                <li><a href="../../about">{{ about }}</a></li>
+                <li><a href="../#main">{{ home }}</a></li>
+                <li><a href="../model/random">{{ random }}</a></li>
+                <li><a href="../model/knn">{{ knn }}</a></li>
+                <li><a href="../model/word2vec">{{ w2v }}</a></li>
+                <li><a href="../model/als">{{ als }}</a></li>
+                <li><a href="../about">{{ about }}</a></li>
             </ul>
             <ul class="icons">
-                <li><a href="https://github.com/masenka31/music-app" class="icon brands alt fa-github" target="_blank"><span class="label">GitHub</span></a></li>
+                <li><a href="https://github.com/masenka31/music-app" class="icon brands alt fa-github"
+                        target="_blank"><span class="label">GitHub</span></a></li>
             </ul>
         </nav>
 
@@ -78,52 +78,47 @@
             <!-- Post -->
             <section class="post">
                 <header class="major">
-                    <h1>KNN model</h1>
+                    <h1>{{model_name}}</h1>
+                    <p>Recommendations</p>
                 </header>
 
-                <p>
-                    KNN model knows who your friends are. When you submit your songs, this model finds other users
-                    who like the same songs as you. Recommended songs are those which your "best friend" likes and
-                    you probably don't know.
-                </p>
-                <h2>
-                    Do you like this model?
-                </h2>
-                <div class="row">
+                <!-- Text stuff -->
+                <p>You've chosen random model - good for you! Here are songs randomly sampled for you (with care).
+                If you want to try your luck one more time, just click <strong>Recalculate!</strong> at the end of the list or refresh page.
+                Beware! You will never get the same playlist ever again...</p>
+                {% for x,y,z in all %}
+                <form method="post" action="">
+                    <p><strong>{{z}}</strong>: {{y}}</p>
                     <div class="col-6 col-12-small">
-                        <ul class="actions stacked">
-                            <li><a href="../../checklist" class="button primary fit">Yes, I choose KNN Model!</a></li>
-                        </ul>
+                        <p>
+                            <iframe src="https://open.spotify.com/embed/track/{{ x }}" width="400" height="80"
+                                frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                        </p>
                     </div>
-                    <div class="col-6 col-12-small">
-                        <ul class="actions stacked">
-                            <li><a href="../word2vec" class="button primary fit">No, I want something else...</a></li>
-                        </ul>
-                    </div>
-                </div>
+                    {% endfor %}
+                    <a href="" class="button large">Recalculate!</a>
+                </form>
 
+            </section>
+
+            <!-- Copyright -->
+            <div id="copyright">
+                <ul>
+                    <li>&copy; Untitled</li>
+                    <li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+                </ul>
+            </div>
 
         </div>
-
-        <!-- Copyright -->
-        <div id="copyright">
-            <ul>
-                <li>&copy; Untitled</li>
-                <li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
-            </ul>
-        </div>
-
 
         <!-- Scripts -->
         <script src="{% static 'blog/assets/js/jquery.min.js' %}"></script>
         <script src="{% static 'blog/assets/js/jquery.scrollex.min.js' %}"></script>
         <script src="{% static 'blog/assets/js/jquery.scrolly.min.js' %}"></script>
-        <script src="{% static 'blog/assets/js/browser.min.js' %}"></script>
+        <!--<script src="{% static 'blog/assets/js/browser.min.js' %}"></script>-->
         <script src="{% static 'blog/assets/js/breakpoints.min.js' %}"></script>
         <script src="{% static 'blog/assets/js/util.js' %}"></script>
         <script src="{% static 'blog/assets/js/main.js' %}"></script>
-
-    </div>
 
 </body>
 

@@ -22,7 +22,7 @@
         cursor: pointer;
         transition: background 0.25s;
         position: fixed;
-        right: 250px;
+        right: 20%;
         bottom: 300px;
     }
 </style>
@@ -48,7 +48,8 @@
                 <li><a href="../about">{{ about }}</a></li>
             </ul>
             <ul class="icons">
-                <li><a href="https://github.com/masenka31/music-app" class="icon brands alt fa-github" target="_blank"><span class="label">GitHub</span></a></li>
+                <li><a href="https://github.com/masenka31/music-app" class="icon brands alt fa-github"
+                        target="_blank"><span class="label">GitHub</span></a></li>
             </ul>
         </nav>
 
@@ -78,7 +79,6 @@
                 </div>
                 <p id="hide" style="display:none"><button onclick="showMe();">Hide info...</button></p>
 
-
                 <script>
                     function showMe() {
                         var element = document.getElementById('tldr')
@@ -94,45 +94,7 @@
                         }
                     }
                 </script>
-
-                <p>Note the chosen algorithm for your recommendations. Right now you are using
-                    <strong>{{model_name}}</strong> but you can change this here:
-                <p>
-
-                <div class="col-6">
-                    <form method="post" action="#">
-                        <div class="row">
-                            <div class="col-6 small">
-                                {% csrf_token %}
-                                <select name="model_choice" id="model_choice">
-                                    <option value="random">Random Model</option>
-                                    <option value="knn">KNN Model</option>
-                                    <option value="word2vec">Word2Vec Model</option>
-                                    <option value="als">ALS Model</option>
-                                </select>
-                            </div>
-                            <div class="col-6 small">
-                                <button class="primary" type="submit" action="#">Save</button>
-                            </div>
-                    </form>
-                </div>
             </section>
-
-            <script>
-                var input = {{ modelJS | safe }};
-                var str = JSON.stringify(input);
-                var val = str.slice(1, -1);
-                var sel = document.getElementById('model_choice');
-                function selected() {
-                    var opts = sel.options;
-                    for (var opt, j = 0; opt = opts[j]; j++) {
-                        if (opt.value == val) {
-                            sel.selectedIndex = j;
-                            break;
-                        }
-                    }
-                }
-            </script>
 
             <section class="post">
                 <p>Choose artists and then songs from database: </p>
@@ -290,23 +252,84 @@
                 </p>
                 {% endif %}
 
+                <h3>Just a check...</h3>
+
+                <div class="row">
+                    <div class="col-6">
+                        <p>Note the chosen algorithm for your recommendations. Right now you are using
+                            <strong>{{model_name}}</strong> but feel free to change it.
+                        <p>
+                    </div>
+
+                    <!-- 
+                    Očividně se tomu teď nějak nechce fungovat, tak na to peču :D
+                    <script>
+                        var input = {{ modelJS | safe }};
+                        var str = JSON.stringify(input);
+                        var val = str.slice(1, -1);
+                        var sel = document.getElementById('model_choice');
+                        function selected() {
+                            var opts = sel.options;
+                            for (var opt, j = 0; opt = opts[j]; j++) {
+                                if (opt.value == val) {
+                                    sel.selectedIndex = j;
+                                    break;
+                                }
+                            }
+                        }
+                    </script> -->
+
+                    <div class="col-6">
+                        <form method="post" action="#">
+                            <ul class="actions special">
+                                <li>
+                                    <div class="col-6 small">
+                                        {% csrf_token %}
+                                        <select name="model_choice" id="model_choice">
+                                            <option value="choose">- Choose new model -</option>
+                                            <option value="random">Random Model</option>
+                                            <option value="knn">KNN Model</option>
+                                            <option value="word2vec">Word2Vec Model</option>
+                                            <option value="als">ALS Model</option>
+                                        </select>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="col">
+                                        <button class="primary fit" type="submit" action="#">Save</button>
+                                    </div>
+                                </li>
+                            </ul>
+                        </form>
+                    </div>
+                </div>
+
+                {% if slider_value %}
+                <div class="row">
+                    <div class="col-6">
+                        <p>
+                            Your suprise factor  is set at <strong>{{slider_value}} %</strong>.
+                        </p>
+                    </div>
+                    <div class="col-6 small">
+                        <form>
+                            <ul class="actions special">
+                                <li><a href="../slider" class="button">Change surprise factor</a></li>
+                            </ul>
+                        </form>
+                    </div>
+                </div>
+                {% endif %}
 
                 {% if ready %}
-                <p>
-                    <button onclick="myFunction()">Are you ready now?</button>
-                </p>
-                <p id="try"></p>
-
-                <script>
-                    function myFunction() {
-                        var str = "Of course you are!";
-                        document.getElementById("try").innerHTML = str;
-                    }
-                </script>
-                <p>
-                    <a href="../recommendations" class="button primary large" type="submit">Take me to my
-                        recommendations...</a>
-                </p>
+                <h3>Everything looking good?</h3>
+                {% if model_name == "Random model" %}
+                <a href="../recommendations_random" class="button primary large" type="submit">Take me to my
+                    recommendations...</a>
+                {% else %}
+                <a href="../recommendations" class="button primary large" type="submit">Take me to my
+                    recommendations...</a>
+                {% endif %}
                 {% endif %}
 
             </section>

@@ -7,6 +7,7 @@ pages = {
         'knn': 'KNN Model',
         'w2v': 'Word2Vec',
         'als': 'ALS Model',
+        'slider': 'Surprise',
         'about': 'Our Story',
 }
 
