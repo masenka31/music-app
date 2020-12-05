@@ -1,4 +1,5 @@
 from gensim.models import KeyedVectors
+from mysite.settings import w2v_settings
 """ www=KeyedVectors.load("../data/model.model", mmap='r')
 def stat(lst):
     lst=www.most_similar(positive=lst,topn=20)
@@ -12,10 +13,10 @@ masa_list=["4MflGTO2ZTcSQ12bWcyRgI","4wTChU0tU44TAMC0xcQizi","19cL3SOKpwnwoKkII7
  
 stat(masa_list) """
 
-w2v_model = KeyedVectors.load("data/model.model", mmap='r')
+w2v_model = KeyedVectors.load(w2v_settings['w2v_model_path'], mmap='r')
 
-def w2v_recommend(ids,n=10,disliked=[]):
-    w2v_model = KeyedVectors.load("data/model.model", mmap='r')
+def w2v_recommend(ids,n=w2v_settings['w2v_n_reco'],disliked=[]):
+    w2v_model = KeyedVectors.load(w2v_settings['w2v_model_path'], mmap='r')
     if disliked:
         rec = w2v_model.most_similar(positive=ids, negative=disliked, topn=n)
     else:

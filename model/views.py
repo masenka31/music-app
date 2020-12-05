@@ -4,7 +4,7 @@ import os
 new_path = os.path.dirname(os.path.realpath(__file__)) + '/../scripts/'
 sys.path.append(new_path)
 import test_script as sc
-import knn_script as knn_model
+import scripts.knn_script as knn_model
 import w2v as wv
 import pandas as pd
 from json import dumps

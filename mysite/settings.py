@@ -17,6 +17,20 @@ import django_heroku
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# W2V settings
+# path to store words2vector model
+w2v_settings = {
+    "w2v_model_path": "data/model202.model",
+    "w2v_n_reco": 10
+}
+
+# KNN settings
+# path to store knn model
+knn_settings = {
+    "knn_model_path": "data/KNN_trained_new.sav",
+    "knn_songs_info": "data/song_info_v1.4.csv",
+    "knn_used_columns": ["track_id", "artist_name", "track_name"]
+}
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
