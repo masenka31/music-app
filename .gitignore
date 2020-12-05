@@ -1,2 +1,4 @@
 *.npy
 /data
+.idea
+/venv
