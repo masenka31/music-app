@@ -83,7 +83,26 @@
                 </header>
 
                 <p>
-                    This is ALS model. I don't even know how it works - but it does!
+                    The ALS (Alternating Least Squares) model is based on matrix factorization. Suppose we have a large
+                    matrix (if you don’t know what a matrix is, think of a table with rows and columns) containing
+                    information about which user listened to which songs. The idea of matrix factorization is to
+                    represent the matrix in simpler terms. The same way one would factor a number into smaller primes.
+                    The factorization takes advantage of the fact that our tastes in music aren’t really that complex.
+                    Instead of having a matrix of size “number of users x number of songs”, we can use two smaller
+                    matrices of sizes “number of users x some number” and “some number x number of songs”. This “some
+                    number” represents the number of hidden “taste factors”. Note that this “some number” heavily
+                    affects the result.
+                </p>
+                <p>
+                    Working with two smaller matrices isn’t only much faster and more convenient. It also gives better
+                    results because we aren’t working with raw data but are working with underlying tastes. The big
+                    question is how to find those smaller matrices, and ALS is one of the answers. We won’t bore you
+                    with the math, so please trust us it works.
+                </p>
+                <p>
+                    <strong>Tips for using this model:</strong> Try to input a diverse list of songs that best
+                    represents your tastes.
+                    The model doesn’t work too well when all the songs are from one or two artists.
                 </p>
                 <h2>
                     Do you like this model?

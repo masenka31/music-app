@@ -84,6 +84,7 @@ def checklist(request):
         request.session['chosen_artists'] = []
         request.session['chosen_ids'] = []
         request.session['chosen_songs'] = []
+        request.session['banned'] =  []
         if 'art_name' in request.session.keys():
             del request.session['art_name']
         # tohle zůstane v contextu, protože se to přenáší do HTML přímo
@@ -107,6 +108,7 @@ def checklist(request):
 
     ## ULOŽENÍ PÍSNIČEK PŘI ZAKLIKÁNÍ V CHECKLISTU ------------------------------------------------
     chosen_ids = request.POST.getlist('checklist')
+    print(chosen_ids)
     chosen_tracks = sc.names_from_ids(data,chosen_ids).tolist()
 
     if chosen_ids:
@@ -145,11 +147,8 @@ def recommendations(request):
     input_songs = [item for sublist in songs for item in sublist]
 
     likeList = request.POST.getlist('likeList')
-    if 'banned' in request.session:
-        banned = request.session.get('banned')
-    else: 
-        banned = []
-    #print(banned)
+    banned = request.session.get('banned')
+    print(banned)
     if likeList:
         rec_ids = request.session.get('rec_ids')
         rec_artists = request.session.get('rec_artists')
@@ -160,10 +159,14 @@ def recommendations(request):
     ### give recommendations
     model = request.session.get('model')
     print(model)
+    """
     if model == "word2vec":
         #rec_ids = wv.w2v_recommend(input_ids,disliked=banned)
         data_genre = sc.read_data(genre=True)
-        rec_ids = sl.predict_user_list(input_ids,data_genre,randomness=slider_value,k=10)
+        if banned:
+            rec_ids = sl.predict_user_list(input_ids,data_genre,randomness=slider_value,k=10,disliked=banned)
+        else:
+            rec_ids = sl.predict_user_list(input_ids,data_genre,randomness=slider_value,k=10)
         print(rec_ids)
     elif model == "knn":
         recommended = knn_model.recommend_knn(input_ids, input_artists)
@@ -175,6 +178,15 @@ def recommendations(request):
         data = sc.read_data()
         rec_ids = data.sample(10)['track_id'].tolist()
         model_name = "Random model"
+    """
+
+    data_genre = sc.read_data(genre=True)
+    print(model)
+    if banned:
+        rec_ids = sl.predict_user_list(input_ids,data_genre,model=model,randomness=slider_value,k=10,disliked=banned)
+    else:
+        rec_ids = sl.predict_user_list(input_ids,data_genre,model=model,randomness=slider_value,k=10)
+    print(rec_ids)
 
     data = sc.read_data(genre=False)
     rec_songs, rec_artists = sc.idtonames(data,rec_ids)

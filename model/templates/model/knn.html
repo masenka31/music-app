@@ -68,7 +68,8 @@
                 <li><a href="../../about">{{ about }}</a></li>
             </ul>
             <ul class="icons">
-                <li><a href="https://github.com/masenka31/music-app" class="icon brands alt fa-github" target="_blank"><span class="label">GitHub</span></a></li>
+                <li><a href="https://github.com/masenka31/music-app" class="icon brands alt fa-github"
+                        target="_blank"><span class="label">GitHub</span></a></li>
             </ul>
         </nav>
 
@@ -81,11 +82,21 @@
                     <h1>KNN model</h1>
                 </header>
 
-                <p>
-                    KNN model knows who your friends are. When you submit your songs, this model finds other users
-                    who like the same songs as you. Recommended songs are those which your "best friend" likes and
-                    you probably don't know.
+                <p>This model isn’t a KNN (K Nearest Neighbours) model in a classical sense but is based on it. After
+                    you input the songs you like, the model goes through them one by one and tries to find songs most
+                    similar to each one separately. We will call those similar song's neighbours of the song. To
+                    determine if two songs are similar, the model only considers which users in our dataset liked the
+                    songs and computes the pairwise cosine distance of the songs.
                 </p>
+                <p>The neighbours of each of your liked songs are merged into one big list of candidates for
+                    recommendation. Just like in the first phase, the model computes how similar these candidates are to
+                    your liked songs, but this time cumulatively, not separately. Finally, the model outputs the desired
+                    number of songs it found the most similar.
+                </p>
+                <p><strong>Tips for using this model:</strong> The model doesn’t scale well with the number of inputted
+                    liked songs, but it should handle around 10 songs in a few seconds. Try to input a diverse list of
+                    songs that best represents your tastes. The model doesn’t work too well when all the songs are from
+                    one or two artists. </p>
                 <h2>
                     Do you like this model?
                 </h2>

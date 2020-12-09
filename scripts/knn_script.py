@@ -8,17 +8,18 @@ import pandas as pd
 
 def recommend_knn(input_ids, input_artists,prev_banned=[]):
     #songs = pd.read_csv("data/song_info_v1.3.csv", usecols=["track_id", "artist_name", "track_name"])
-    songs = pd.read_csv("data/song_info_v1.4.csv", usecols=["track_id", "artist_name", "track_name"])
+    songs = pd.read_csv("data/song_info_v1.5.csv", usecols=["track_id", "artist_name", "track_name"])
     reco = KNNRecommender()
     #reco.load_model(filename="data/KNN_trained_m.sav")
-    reco.load_model(filename="data/KNN_trained_new.sav")
+    reco.load_model(filename="data/KNN_trained_m.sav")
 
     banned_ids = songs[songs["artist_name"].isin(input_artists)]
-    banned_ids = banned_ids["track_id"].values
+    banned_ids = banned_ids["track_id"].values.tolist()
 
-    #if prev_banned:
-    #    banned_ids.append(prev_banned)
-    #    banned_ids = [item for sublist in banned_ids for item in sublist]
+    if prev_banned:
+        banned_ids = [banned_ids]
+        banned_ids.append(prev_banned)
+        banned_ids = [item for sublist in banned_ids for item in sublist]
 
     recommended_ids = reco.predict(input_ids, 10, banned_ids)
     rec_songs = songs[songs["track_id"].isin(recommended_ids)]

@@ -52,17 +52,25 @@
             <section class="post">
                 <header class="major">
 
-
                     <h1>Word2Vec Model</h1>
                 </header>
                 <p>This technique was developed by a team of Google researchers led by Tomas Mikolov.
                     The patented algorithm was initially used in natural language processing to learn word
-                    associations.
-                </p>
-                <p>
-                    Neural networks in this model learn associations between words from sentences. However
+                    associations. Neural networks in this model learn associations between words from sentences. However
                     the same approach can be used in music recommendation - just imagine playlists as sentences
                     and songs in those playlists as words.
+                </p>
+                <p>
+                    Word2Vec is a simple two-layer neural network originally created for a text prediction. The key
+                    process for Word2Vec is to create a numeric vector called the word embedding. This is achieved with
+                    the use of neural networks. It contains one hidden layer usually composed of several hundred neurons.
+                    As all the neural networks, in a process of learning the weights are adjusted by fitting the train
+                    data. A good thing about Word2Vec is that the process of learning also includes context
+                    understanding. This is achieved by setting an appropriate value to a window variable. With this
+                    approach all the input words can be represented as vectors in the n-dimensional space. This allows
+                    Word2Vec to use standard metrics for calculating word distances and therefore determine which words
+                    are closer to each other. These distances can be used for word prediction or in our case for music
+                    recommendation.
                 </p>
                 <h2>
                     Do you like this model?
