@@ -24,6 +24,7 @@ def song_list(data,art_name):
 
 def song_list2(data,art_name):
     songList_temp = data.loc[data['artist_name'] == art_name ]
+    songList_temp = songList_temp.sort_values(by=['track_name'])
     songNames = songList_temp['track_name']
     songIDs = songList_temp['track_id']
     return zip(songNames, songIDs)
