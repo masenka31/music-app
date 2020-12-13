@@ -1,0 +1,125 @@
+{% load static %}
+<!DOCTYPE HTML>
+<!--
+	Massively by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+<head>
+    <title>Recommendations</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="{% static 'blog/assets/css/main.css' %}" />
+    <noscript>
+        <link rel="stylesheet" href="{% static 'blog/assets/css/noscript.css' %}" /></noscript>
+    <link href="https://fonts.googleapis.com/icon?faily=Material+Icons" rel='stylesheet'>
+    <script src="https://kit.fontawesome.com/4a7db10ff8.js" crossorigin="anonymous"></script>
+</head>
+
+<style>
+    .floating-btn {
+        cursor: pointer;
+        transition: background 0.25s;
+        position: fixed;
+        right: 250px;
+        bottom: 300px;
+    }
+
+    i:hover {
+        border-bottom-color: transparent;
+        text-shadow: 1px 1px 1px black;
+    }
+
+    i.disabled {
+        opacity: 0.2
+    }
+
+    i.ban {
+        color: #8f384d;
+    }
+
+    i.checked {
+        color: green;
+    }
+</style>
+
+<body class="is-preload">
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Header -->
+        <header id="header">
+            <a href="../#main" class="logo">{{ title }}</a>
+        </header>
+
+
+        <!-- Nav -->
+        <nav id="nav">
+            <ul class="links">
+                <li><a href="../#main">{{ home }}</a></li>
+                <li><a href="../model/random">{{ random }}</a></li>
+                <li><a href="../model/knn">{{ knn }}</a></li>
+                <li><a href="../model/word2vec">{{ w2v }}</a></li>
+                <li><a href="../model/als">{{ als }}</a></li>
+                <li><a href="../about">{{ about }}</a></li>
+            </ul>
+            <ul class="icons">
+                <li><a href="https://github.com/masenka31/music-app" class="icon brands alt fa-github"
+                        target="_blank"><span class="label">GitHub</span></a></li>
+            </ul>
+        </nav>
+
+        <!-- Main -->
+        <div id="main">
+
+            <!-- Post -->
+            <section class="post">
+                <header class="major">
+                    <h1>{{model_name}}</h1>
+                    <p>Recommendations</p>
+                </header>
+
+                <!-- Text stuff -->
+                <p>You've chosen random model - good for you! Here are songs randomly sampled for you (with care).
+                If you want to try your luck one more time, just click <strong>Recalculate!</strong> at the end of the list or refresh page.
+                Beware! You will never get the same playlist ever again...</p>
+                {% for x,y,z in all %}
+                <form method="post" action="">
+                    <p><strong>{{z}}</strong>: {{y}}</p>
+                    <div class="col-6 col-12-small">
+                        <p>
+                            <iframe src="https://open.spotify.com/embed/track/{{ x }}" width="400" height="80"
+                                frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+                        </p>
+                    </div>
+                    {% endfor %}
+                    <a href="" class="button large">Recalculate!</a>
+                </form>
+
+            </section>
+
+            <!-- Copyright -->
+            <div id="copyright">
+                <ul>
+                    <li>&copy; Untitled</li>
+                    <li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+                </ul>
+            </div>
+
+        </div>
+
+        <!-- Scripts -->
+        <script src="{% static 'blog/assets/js/jquery.min.js' %}"></script>
+        <script src="{% static 'blog/assets/js/jquery.scrollex.min.js' %}"></script>
+        <script src="{% static 'blog/assets/js/jquery.scrolly.min.js' %}"></script>
+        <script src="{% static 'blog/assets/js/browser.min.js' %}"></script>
+        <script src="{% static 'blog/assets/js/breakpoints.min.js' %}"></script>
+        <script src="{% static 'blog/assets/js/util.js' %}"></script>
+        <script src="{% static 'blog/assets/js/main.js' %}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,148 @@
+{% load static %}
+<!DOCTYPE HTML>
+<!--
+	Massively by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+<head>
+    <title>ALS model</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="{% static 'blog/assets/css/main.css' %}" />
+    <noscript>
+        <link rel="stylesheet" href="{% static 'blog/assets/css/noscript.css' %}" /></noscript>
+    <link href="https://fonts.googleapis.com/icon?faily=Material+Icons" rel='stylesheet'>
+    <script src="https://kit.fontawesome.com/4a7db10ff8.js" crossorigin="anonymous"></script>
+</head>
+
+<style>
+    .floating-btn {
+        cursor: pointer;
+        transition: background 0.25s;
+        position: fixed;
+        right: 250px;
+        bottom: 300px;
+    }
+
+    i:hover {
+        border-bottom-color: transparent;
+        text-shadow: 1px 1px 1px black;
+    }
+
+    i.disabled {
+        opacity: 0.2
+    }
+
+    i.ban {
+        color: #8f384d;
+    }
+
+    i.checked {
+        color: green;
+    }
+</style>
+
+<body class="is-preload">
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Header -->
+        <header id="header">
+            <a href="../../#main" class="logo">{{ title }}</a>
+        </header>
+
+
+        <!-- Nav -->
+        <nav id="nav">
+            <ul class="links">
+                <li><a href="../../#main">{{ home }}</a></li>
+                <li><a href="../random">{{ random }}</a></li>
+                <li><a href="../knn">{{ knn }}</a></li>
+                <li><a href="../word2vec">{{ w2v }}</a></li>
+                <li class="active"><a href="../als">{{ als }}</a></li>
+                <li><a href="../../slider">{{slider}}</a></li>
+                <li><a href="../../about">{{ about }}</a></li>
+            </ul>
+            <ul class="icons">
+                <li><a href="https://github.com/masenka31/music-app" class="icon brands alt fa-github"
+                        target="_blank"><span class="label">GitHub</span></a></li>
+            </ul>
+        </nav>
+
+        <!-- Main -->
+        <div id="main">
+
+            <!-- Post -->
+            <section class="post">
+                <header class="major">
+                    <h1>ALS model</h1>
+                </header>
+
+                <p>
+                    The ALS (Alternating Least Squares) model is based on matrix factorization. Suppose we have a large
+                    matrix (if you don’t know what a matrix is, think of a table with rows and columns) containing
+                    information about which user listened to which songs. The idea of matrix factorization is to
+                    represent the matrix in simpler terms. The same way one would factor a number into smaller primes.
+                    The factorization takes advantage of the fact that our tastes in music aren’t really that complex.
+                    Instead of having a matrix of size “number of users x number of songs”, we can use two smaller
+                    matrices of sizes “number of users x some number” and “some number x number of songs”. This “some
+                    number” represents the number of hidden “taste factors”. Note that this “some number” heavily
+                    affects the result.
+                </p>
+                <p>
+                    Working with two smaller matrices isn’t only much faster and more convenient. It also gives better
+                    results because we aren’t working with raw data but are working with underlying tastes. The big
+                    question is how to find those smaller matrices, and ALS is one of the answers. We won’t bore you
+                    with the math, so please trust us it works.
+                </p>
+                <p>
+                    <strong>Tips for using this model:</strong> Try to input a diverse list of songs that best
+                    represents your tastes.
+                    The model doesn’t work too well when all the songs are from one or two artists.
+                </p>
+                <h2>
+                    Do you like this model?
+                </h2>
+                <div class="row">
+                    <div class="col-6 col-12-small">
+                        <ul class="actions stacked">
+                            <li><a href="../../checklist" class="button primary fit">Yes, I choose ALS Model!</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-6 col-12-small">
+                        <ul class="actions stacked">
+                            <li><a href="../random" class="button primary fit">No, I want something else...</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+
+            </section>
+
+        </div>
+
+        <!-- Copyright -->
+        <div id="copyright">
+            <ul>
+                <li>&copy; Untitled</li>
+                <li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{% static 'blog/assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'blog/assets/js/jquery.scrollex.min.js' %}"></script>
+    <script src="{% static 'blog/assets/js/jquery.scrolly.min.js' %}"></script>
+    <script src="{% static 'blog/assets/js/browser.min.js' %}"></script>
+    <script src="{% static 'blog/assets/js/breakpoints.min.js' %}"></script>
+    <script src="{% static 'blog/assets/js/util.js' %}"></script>
+    <script src="{% static 'blog/assets/js/main.js' %}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,94 @@
+{% load static %}
+<!DOCTYPE HTML>
+<!--
+	Massively by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+<head>
+	<title>About Us</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="{% static 'blog/assets/css/main.css' %}" />
+	<noscript>
+		<link rel="stylesheet" href="{% static 'blog/assets/css/noscript.css' %}" /></noscript>
+		<script src="https://kit.fontawesome.com/4a7db10ff8.js" crossorigin="anonymous"></script>
+</head>
+
+<body class="is-preload">
+
+	<!-- Wrapper -->
+	<div id="wrapper">
+
+		<!-- Header -->
+		<header id="header">
+			<a href="../#main" class="logo">{{ title }}</a>
+		</header>
+
+		<!-- Nav -->
+		<nav id="nav">
+			<ul class="links">
+				<li><a href="../#main">{{ home }}</a></li>
+				<li><a href="../model/random">{{ random }}</a></li>
+				<li><a href="../model/knn">{{ knn }}</a></li>
+				<li><a href="../model/word2vec">{{ w2v }}</a></li>
+                <li><a href="../model/als">{{ als }}</a></li>
+				<li><a href="../slider">{{slider}}</a></li>
+				<li class="active"><a href="../about">{{ about }}</a></li>
+			</ul>
+			<ul class="icons">
+				<li><a href="https://github.com/masenka31/music-app" class="icon brands alt fa-github" target="_blank"><span class="label">GitHub</span></a></li>
+			</ul>
+		</nav>
+
+		<!-- Main -->
+		<div id="main">
+
+			<!-- Post -->
+			<section class="post">
+				<header class="major">
+					<h1>About Project</h1>
+				</header>
+
+				<!-- Text stuff -->
+				<p>This whole project started at CTU when we formed a group in subject called Data Science. The aim was
+					simple: create a recommendation engine
+					for music. This project is the result of our tryings. We hope you're enjoying our application as
+					well as its benefits.</p>
+
+				<h2>Our team</h2>
+				<ul>
+					<li>Tomáš Brisučiak</li>
+					<li>Martin Kovanda</li>
+					<li>Michal Malík</li>
+					<li>Michaela Mašková</li>
+				</ul>
+			</section>
+
+		</div>
+
+
+		<!-- Copyright -->
+		<div id="copyright">
+			<ul>
+				<li>&copy; Untitled</li>
+				<li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+			</ul>
+		</div>
+
+	</div>
+
+	<!-- Scripts -->
+	<script src="{% static 'blog/assets/js/jquery.min.js' %}"></script>
+	<script src="{% static 'blog/assets/js/jquery.scrollex.min.js' %}"></script>
+	<script src="{% static 'blog/assets/js/jquery.scrolly.min.js' %}"></script>
+	<script src="{% static 'blog/assets/js/browser.min.js' %}"></script>
+	<script src="{% static 'blog/assets/js/breakpoints.min.js' %}"></script>
+	<script src="{% static 'blog/assets/js/util.js' %}"></script>
+	<script src="{% static 'blog/assets/js/main.js' %}"></script>
+
+</body>
+
+</html>

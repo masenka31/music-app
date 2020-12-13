@@ -1,0 +1,165 @@
+{% load static %}
+<!DOCTYPE HTML>
+<!--
+	Massively by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+
+<head>
+    <title>Suprise Factor</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="{% static 'blog/assets/css/main.css' %}" />
+    <noscript>
+        <link rel="stylesheet" href="{% static 'blog/assets/css/noscript.css' %}" />
+    </noscript>
+    <link href="https://fonts.googleapis.com/icon?faily=Material+Icons" rel='stylesheet'>
+</head>
+
+<style>
+    .slidecontainer {
+        width: 50%;
+        /* Width of the outside container */
+    }
+
+    /* The slider itself */
+    .slider {
+        -webkit-appearance: none;
+        /* Override default CSS styles */
+        appearance: none;
+        width: 100%;
+        /* Full-width */
+        height: 5px;
+        /* Specified height */
+        background: #d3d3d3;
+        /* Grey background */
+        outline: none;
+        /* Remove outline */
+        opacity: 0.7;
+        /* Set transparency (for mouse-over effects on hover) */
+        -webkit-transition: .2s;
+        /* 0.2 seconds transition on hover */
+        transition: opacity .2s;
+    }
+
+    /* Mouse-over effects */
+    .slider:hover {
+        opacity: 1;
+        /* Fully shown on mouse-over */
+    }
+</style>
+
+<body class="is-preload">
+
+    <!-- Wrapper -->
+    <div id="wrapper">
+
+        <!-- Header -->
+        <header id="header">
+            <a href="../../#main" class="logo">{{ title }}</a>
+        </header>
+
+
+        <!-- Nav -->
+        <nav id="nav">
+            <ul class="links">
+                <li><a href="../#main">{{ home }}</a></li>
+                <li><a href="../model/random">{{ random }}</a></li>
+                <li><a href="../model/knn">{{ knn }}</a></li>
+                <li><a href="../model/word2vec">{{ w2v }}</a></li>
+                <li><a href="../model/als">{{ als }}</a></li>
+                <li class="active"><a href="">{{slider}}</a></li>
+                <li><a href="../about">{{ about }}</a></li>
+            </ul>
+            <ul class="icons">
+                <li><a href="https://github.com/masenka31/music-app" class="icon brands alt fa-github"
+                        target="_blank"><span class="label">GitHub</span></a></li>
+            </ul>
+        </nav>
+
+        <!-- Main -->
+        <div id="main">
+            <section class="post">
+                <header class="major">
+
+
+                    <h1>Surprise slider</h1>
+                </header>
+                <p>We know your struggle. Sometimes you want to find songs you've never heard before. Maybe
+                    songs which can surprise you. Our surprise slider is here to help. Just choose how much
+                    you want to be surprised. No surprises? Put it to 0 %.
+                </p>
+                <p>Surprise factor doesn't affect Random model as Random model has probably 1000000% surprise
+                    factor :D
+                </p>
+
+                <form method="post" id="form">
+                    <div class="row">
+                        <div class="col-6">
+                            <input type="range" min="0" max="100" value="{{slider_value}}" class="slider"
+                                id="sliderRange" name="slider_value">
+                            <p>Rate of surprise: <strong><span id="demo"></span> %</strong>.</p>
+                        </div>
+                        <div class="col">
+                            {% csrf_token %}
+                            <button class="primary" action="#form" type="submit">Save</button>
+                        </div>
+                    </div>
+                </form>
+
+                {% if model_name == "Random model" %}
+                <p>Your currently chosen model is <strong>{{model_name}}</strong> therefore surprise factor
+                is not going to work on your recommendations. Do you wish to proceed?</p>
+                <ul class="actions special">
+                    <li>
+                        <a href="../recommendations_random" class="button primary fit">I'm ready! Take me to my
+                            recommendations...</a></li>
+                    <li>        <a href="../#models" class="button primary fit">I want to choose a different model</a></li>
+                    
+                </ul>
+                {% else %}
+                <p>Your currently chosen model is <strong>{{model_name}}</strong> but you can change it in the next
+                    step. Do you wish to proceed?</p>
+                <ul class="actions special">
+                    <li>                        
+                        <a href="../checklist" class="button primary large" type="submit">I'm ready!</a>
+                    </li>
+                </ul>
+                {% endif %}
+            </section>
+        </div>
+
+        <script>
+            var rangeslider = document.getElementById("sliderRange");
+            var output = document.getElementById("demo");
+            output.innerHTML = rangeslider.value;
+
+            rangeslider.oninput = function () {
+                output.innerHTML = this.value;
+            } 
+        </script>
+
+        <!-- Copyright -->
+        <div id="copyright">
+            <ul>
+                <li>&copy; Untitled</li>
+                <li>Design: <a href="https://html5up.net">HTML5 UP</a></li>
+            </ul>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="{% static 'blog/assets/js/jquery.min.js' %}"></script>
+    <script src="{% static 'blog/assets/js/jquery.scrollex.min.js' %}"></script>
+    <script src="{% static 'blog/assets/js/jquery.scrolly.min.js' %}"></script>
+    <script src="{% static 'blog/assets/js/browser.min.js' %}"></script>
+    <script src="{% static 'blog/assets/js/breakpoints.min.js' %}"></script>
+    <script src="{% static 'blog/assets/js/util.js' %}"></script>
+    <script src="{% static 'blog/assets/js/main.js' %}"></script>
+
+</body>
+
+</html>
