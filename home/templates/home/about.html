@@ -13,8 +13,9 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 	<link rel="stylesheet" href="{% static 'blog/assets/css/main.css' %}" />
 	<noscript>
-		<link rel="stylesheet" href="{% static 'blog/assets/css/noscript.css' %}" /></noscript>
-		<script src="https://kit.fontawesome.com/4a7db10ff8.js" crossorigin="anonymous"></script>
+		<link rel="stylesheet" href="{% static 'blog/assets/css/noscript.css' %}" />
+	</noscript>
+	<script src="https://kit.fontawesome.com/4a7db10ff8.js" crossorigin="anonymous"></script>
 </head>
 
 <body class="is-preload">
@@ -34,12 +35,13 @@
 				<li><a href="../model/random">{{ random }}</a></li>
 				<li><a href="../model/knn">{{ knn }}</a></li>
 				<li><a href="../model/word2vec">{{ w2v }}</a></li>
-                <li><a href="../model/als">{{ als }}</a></li>
+				<li><a href="../model/als">{{ als }}</a></li>
 				<li><a href="../slider">{{slider}}</a></li>
 				<li class="active"><a href="../about">{{ about }}</a></li>
 			</ul>
 			<ul class="icons">
-				<li><a href="https://github.com/masenka31/music-app" class="icon brands alt fa-github" target="_blank"><span class="label">GitHub</span></a></li>
+				<li><a href="https://github.com/masenka31/music-app" class="icon brands alt fa-github"
+						target="_blank"><span class="label">GitHub</span></a></li>
 			</ul>
 		</nav>
 
@@ -55,18 +57,39 @@
 				<!-- Text stuff -->
 				<p>This whole project started at CTU when we formed a group in subject called Data Science. The aim was
 					simple: create a recommendation engine
-					for music. This project is the result of our tryings. We hope you're enjoying our application as
+					for music. This project is the result of our efforts. We hope you're enjoying our application as
 					well as its benefits.</p>
 
 				<h2>Our team</h2>
-				<ul>
-					<li>Tomáš Brisučiak</li>
-					<li>Martin Kovanda</li>
-					<li>Michal Malík</li>
-					<li>Michaela Mašková</li>
-				</ul>
-			</section>
+				<div class="row">
+					<div class="col-3">
+						<ul>
+							<li>Tomáš Brisučiak</li>
+							<li>Martin Kovanda</li>
+							<li>Michal Malík</li>
+							<li>Michaela Mašková</li>
+						</ul>
+					</div>
+					<div class="col-1">
+						<p>&mdash;<br>
+							&mdash;<br>
+							&mdash;<br>
+							&mdash;</p>
+					</div>
+					<div class="col-6">
+						<p>Python guru and model developer<br>
+							neural networks architect<br>
+							dataset master and all-purpose helper<br>
+							self-taught full-stack developer</p>
+					</div>
+				</div>
 
+				<h2>Thank you note</h2>
+				<p>We would like to thank Viktor Brada and Jiří Franc for all their help with this project.
+					Our thanks also go to the whole team behind DAS subject as it is probably the most practical
+					course in our programme so far.
+				<p>
+			</section>
 		</div>
 
 

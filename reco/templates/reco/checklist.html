@@ -118,22 +118,26 @@
                     and songs you like, check your model and choose how much you want to be surprised with your
                     recommendations.
                 </p>
-                <ul class="actions">
+                <ul class="actions special">
                     <li><button id="show" onclick="showMe();">Show more info...</button></li>
                 </ul>
                 <div class="col-12" id="tldr" style="display:none">
                     <p>This page uses autocomplete search to help you search for songs in our database.
-                        Simply start typing and choose artist from the list.
+                        Simply start typing and choose an artist from the list.
                         When you choose your desired artist, submit your search and see all their songs in our database.
                     </p>
                     <p>What next? Choose the songs you like and we will add them to your favourites list. This is a list
                         that will be used to recommend new songs for you. Save your list and if you've not chosen enough
                         songs, just start searching for another artist.</p>
+                        <p>You can add any number of songs. Just remember that more songs might mean longer waiting time
+                        for your recommendations.</p>
                     <p>When you're ready, click on <strong>Take me to my recommendations</strong> and marvel at the
-                        magical
-                        algorithm.</p>
+                        magical algorithm.</p>
                 </div>
-                <p id="hide" style="display:none"><button onclick="showMe();">Hide info...</button></p>
+                <ul class="actions special">
+                    <li><p id="hide" style="display:none"><button onclick="showMe();">Hide info...</button></p></li>
+                </ul>
+                
 
                 <script>
                     function showMe() {

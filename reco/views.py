@@ -12,7 +12,7 @@ import pandas as pd
 from json import dumps
 
 pages = {
-        'title': 'Know Your Music',
+        'title': 'AI.Music',
         'home': 'Home',
         'random': 'Random Model',
         'knn': 'KNN Model',
