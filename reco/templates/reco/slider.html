@@ -83,18 +83,20 @@
         <div id="main">
             <section class="post">
                 <header class="major">
-
-
                     <h1>Surprise slider</h1>
                 </header>
                 <p>We know your struggle. Sometimes you want to find songs you've never heard before. Maybe
                     songs which can surprise you. Our surprise slider is here to help. Just choose how much
                     you want to be surprised. No surprises? Put it to 0 %.
                 </p>
-                <p>Surprise factor doesn't affect Random model as Random model has probably 1000000% surprise
-                    factor :D
+                <p>Surprise factor works in 5 stages. <strong>Stage 0</strong> means no suprises. <strong>Stage 1</strong> is from 1 % to 25 %, <strong>Stage 2</strong> is 26 to 50 % etc.
+                Stages are configured to give you the right amount of suprise with choosing how many songs from one artist you get or 
+                what genres will appear in your recommendations. </p>
+                <p><strong>Note: </strong>Surprise factor doesn't affect Random model as Random model has infinite suprise factor. Unfortunatelly,
+                it doesn't work for KNN model, too, as KNN is much slower than Word2Vec and ALS models and would
+                take too long to load. And we don't want that, right?
                 </p>
-
+                <h3>Choose your suprise factor:</h3>
                 <form method="post" id="form">
                     <div class="row">
                         <div class="col-6">
@@ -104,12 +106,12 @@
                         </div>
                         <div class="col">
                             {% csrf_token %}
-                            <button class="primary" action="#form" type="submit">Save</button>
+                            <button action="#form" type="submit">Save</button>
                         </div>
                     </div>
                 </form>
 
-                {% if model_name == "Random model" %}
+                {% if model_name == "Random model"%}
                 <p>Your currently chosen model is <strong>{{model_name}}</strong> therefore surprise factor
                 is not going to work on your recommendations. Do you wish to proceed?</p>
                 <ul class="actions special">
@@ -117,6 +119,19 @@
                         <a href="../recommendations_random" class="button primary fit">I'm ready! Take me to my
                             recommendations...</a></li>
                     <li>        <a href="../#models" class="button primary fit">I want to choose a different model</a></li>
+                    
+                </ul>
+                {% elif model_name == "KNN model"%}
+                <p>Your currently chosen model is <strong>{{model_name}}</strong> therefore surprise factor
+                is not going to work on your recommendations. Do you wish to proceed?</p>
+                <ul class="actions special">
+                    <li>
+                        <a href="../checklist" class="button primary fit">I'm ready! Take me to my
+                            recommendations...</a>
+                    </li>
+                    <li>
+                        <a href="../#models" class="button primary fit">I want to choose a different model</a>
+                    </li>
                     
                 </ul>
                 {% else %}

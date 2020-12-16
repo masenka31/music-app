@@ -1,7 +1,7 @@
 from django.shortcuts import render  # useful shortcuts :)
 
 pages = {
-        'title': 'Know Your Music',
+        'title': 'AI.Music',
         'home': 'Home',
         'random': 'Random Model',
         'knn': 'KNN Model',

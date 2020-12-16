@@ -113,21 +113,31 @@
                 </header>
 
                 <!-- Text stuff -->
-                <p>Before we can recommend any songs we need to know what you like!</p>
-                <p><button id="show" onclick="showMe();">Show more info...</button></p>
+                <p>Before we can recommend any songs we need to know what you like! In three simple steps you will
+                    choose artists
+                    and songs you like, check your model and choose how much you want to be surprised with your
+                    recommendations.
+                </p>
+                <ul class="actions special">
+                    <li><button id="show" onclick="showMe();">Show more info...</button></li>
+                </ul>
                 <div class="col-12" id="tldr" style="display:none">
                     <p>This page uses autocomplete search to help you search for songs in our database.
-                        Simply start typing and choose artist from the list.
+                        Simply start typing and choose an artist from the list.
                         When you choose your desired artist, submit your search and see all their songs in our database.
                     </p>
                     <p>What next? Choose the songs you like and we will add them to your favourites list. This is a list
                         that will be used to recommend new songs for you. Save your list and if you've not chosen enough
                         songs, just start searching for another artist.</p>
+                        <p>You can add any number of songs. Just remember that more songs might mean longer waiting time
+                        for your recommendations.</p>
                     <p>When you're ready, click on <strong>Take me to my recommendations</strong> and marvel at the
-                        magical
-                        algorithm.</p>
+                        magical algorithm.</p>
                 </div>
-                <p id="hide" style="display:none"><button onclick="showMe();">Hide info...</button></p>
+                <ul class="actions special">
+                    <li><p id="hide" style="display:none"><button onclick="showMe();">Hide info...</button></p></li>
+                </ul>
+                
 
                 <script>
                     function showMe() {
@@ -147,8 +157,9 @@
             </section>
 
             <section class="post">
-                <p>Choose artists and then songs from database: </p>
-                <div class="col-6 col-12-small">
+                <h2>Step 1</h2>
+                <p>Choose one or more artists and then songs from database: </p>
+                <div class="col-10">
                     <!--Make sure the form has the autocomplete function switched off:-->
                     <form autocomplete="off" action="" method="post">
                         <ul class="actions">
@@ -159,12 +170,7 @@
                                 </div>
                             </li>
                             <li><input type="submit" , value="View songs"></li>
-                    </form>
-                </div>
-                <div>
-                    <form action="" method="post">
-                        {% csrf_token %}
-                        <input type="submit" name="delete_input" , value="Reset">
+                            <li><input type="submit" name="delete_input" , value="Reset"></li>
                     </form>
                 </div>
 
@@ -277,7 +283,7 @@
                 </script>
 
                 {% if pasted %}
-                <p id="songs">Choose songs from <strong>{{ art_name }}</strong></p>
+                <p id="songs">Choose songs from <strong>{{ art_name }}</strong>:</p>
                 <form method="post" action="">
                     <p>
                         {% for song, id in songList %}
@@ -302,38 +308,20 @@
                 </p>
                 {% endif %}
 
-                <h3>Just a check...</h3>
+                <h2>Step 2</h2>
+
 
                 <div class="row">
                     <div class="col-6">
-                        <p>Note the chosen algorithm for your recommendations. Right now you are using
-                            <strong>{{model_name}}</strong> but feel free to change it.
+                        <p>Check your choices for model and suprise factor. Right now you are using
+                            <strong>{{model_name}}</strong> but feel free to change it here.
                         <p>
-                    </div>
 
-                    <!-- 
-                    Očividně se tomu teď nějak nechce fungovat, tak na to peču :D
-                    <script>
-                        var input = {{ modelJS | safe }};
-                        var str = JSON.stringify(input);
-                        var val = str.slice(1, -1);
-                        var sel = document.getElementById('model_choice');
-                        function selected() {
-                            var opts = sel.options;
-                            for (var opt, j = 0; opt = opts[j]; j++) {
-                                if (opt.value == val) {
-                                    sel.selectedIndex = j;
-                                    break;
-                                }
-                            }
-                        }
-                    </script> -->
 
-                    <div class="col-6">
                         <form method="post" action="#">
                             <ul class="actions special">
                                 <li>
-                                    <div class="col-6 small">
+                                    <div class="col-7 small">
                                         {% csrf_token %}
                                         <select name="model_choice" id="model_choice">
                                             <option value="choose">- Choose new model -</option>
@@ -345,43 +333,56 @@
                                     </div>
                                 </li>
                                 <li>
-                                    <div class="col">
-                                        <button class="primary fit" type="submit" action="#">Save</button>
+                                    <div class="col-7">
+                                        <button class="regular fit" type="submit" action="#">Save</button>
                                     </div>
                                 </li>
                             </ul>
                         </form>
+
+                        {% if model_name != "KNN model" %}
+                        <div class="col-4">
+                            <p>
+                                <strong>Suprise factor</strong> tells the model to recommend songs that might surprise
+                                you.
+                                {% if slider_value %}
+                                Right now it is set at <strong>{{slider_value}} %</strong>.
+                                {% else %}
+                                It is automatically set at <strong>0 %</strong>.
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="col-6 small">
+                            <form>
+                                <ul class="actions special">
+                                    <li><a href="../slider" class="button">Change surprise factor</a></li>
+                                </ul>
+                            </form>
+                        </div>
+                        {% else %}
+                         <div class="col-4">
+                            <p>
+                                <strong>Suprise factor</strong> tells the model to recommend songs that might surprise
+                                you. Unfortunatelly this doesn't work for KNN model (only for Word2Vec and ALS model).
+                            </p>
+                        </div>
+                        {% endif %}
+
+
+
+                        {% if ready %}
+                        <h2>Step 3</h2>
+                        <p>Are you happy with your choices? If so, click the button.</p>
+                        {% if model_name == "Random model" %}
+                        <a href="../recommendations_random" class="button primary fit " type="submit">Take me to my
+                            recommendations...</a>
+                        {% else %}
+                        <a href="../recommendations" class="button primary large fit" type="submit">Take me to my
+                            recommendations...</a>
+                        {% endif %}
+                        {% endif %}
                     </div>
                 </div>
-
-                {% if slider_value %}
-                <div class="row">
-                    <div class="col-6">
-                        <p>
-                            Your suprise factor is set at <strong>{{slider_value}} %</strong>.
-                        </p>
-                    </div>
-                    <div class="col-6 small">
-                        <form>
-                            <ul class="actions special">
-                                <li><a href="../slider" class="button">Change surprise factor</a></li>
-                            </ul>
-                        </form>
-                    </div>
-                </div>
-                {% endif %}
-
-                {% if ready %}
-                <h3>Everything looking good?</h3>
-                {% if model_name == "Random model" %}
-                <a href="../recommendations_random" class="button primary large" type="submit">Take me to my
-                    recommendations...</a>
-                {% else %}
-                <a href="../recommendations" class="button primary large" type="submit">Take me to my
-                    recommendations...</a>
-                {% endif %}
-                {% endif %}
-
             </section>
         </div>
 

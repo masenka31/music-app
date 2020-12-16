@@ -20,7 +20,6 @@ def model_pred(model,positive,negative=None,topn=20):
         s, input_artists = sc.idtonames(data,positive)
         lst = knn.recommend_knn(positive, input_artists,prev_banned=negative)
         return pd.DataFrame(lst,columns=["track_id"])
-    
 
 def pred(model,lst_user,df,disliked=None,interpret_keep=3,count=40,genre_keep=False,tempo_keep=False):
     df_pred=model_pred(model,lst_user,negative=disliked,topn=count)
@@ -40,8 +39,6 @@ def crop(df_temp,genre_keep=False,tempo_keep=False):
     if(tempo_keep):
         df_temp=df_temp.groupby('tempo').head(tempo_keep)
     return df_temp
-
-
 
 def predict_user_list(my_list,df,model,randomness=0,k=20,disliked=None):
     interpret_keep_list=[3,2,2,1,1]
