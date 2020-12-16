@@ -138,10 +138,10 @@
                 <h3>Recommended songs</h3>
                 <p>You've chosen your songs - now enjoy recommended tracks just for you!</p>
                 <p>If you want to get more (and hopefully better) recommendations simply click the <i
-                        class="far fa-heart"></i>
+                        class="fas fa-heart checked"></i>
                     icon. This will add songs you like to your list and you can recalculate your recommendations to get
                     even more amazing songs tailored just for you. You can also dislike a song with <i
-                        class="fas fa-ban"></i>.</p>
+                        class="fas fa-ban ban"></i>.</p>
                 {% for x,y,z in all %}
                 <form method="post" action="">
                     <p><strong>{{z}}</strong>: {{y}}</p>
@@ -166,14 +166,15 @@
                         </div>
                     </div>
                     {% endfor %}
-                    <p>If you liked any songs from the list, let's go and recommend some more songs.</p>
+                    <br>
+                    <h4>If you liked any songs from the list, let's go and recommend some more songs.</h4>
                     <p> {{likeList}} </p>
                     {% csrf_token %}
-                    <button type="submit">Recalculate recommendations</button>
+                    <button class="primary" type="submit">Recalculate recommendations</button>
                 </form>
 
             </section>
-
+</div>
             <!-- Copyright -->
             <div id="copyright">
                 <ul>
@@ -182,7 +183,7 @@
                 </ul>
             </div>
 
-        </div>
+        
 
         <!-- Scripts -->
         <script src="{% static 'blog/assets/js/jquery.min.js' %}"></script>

@@ -37,7 +37,6 @@ def slider(request):
 
     request.session['slider_value'] = slider_value
     context['slider_value'] = slider_value
-    print(slider_value)
 
     return render(request, 'reco/slider.html', context)
 
@@ -94,7 +93,6 @@ def checklist(request):
     slider_value = request.session.get('slider_value')
     if slider_value:
         context['slider_value'] = slider_value
-    print(slider_value)
     
     ## VYBÍRÁNÍ PÍSNIČEK Z DATABÁZE PŘI ZADÁNÍ UMĚLCE --------------------------------------------
     # pokud člověk zadá umělce, uloží se do art_name
@@ -105,10 +103,10 @@ def checklist(request):
         context['pasted'] = True        # tohle zůstává v contextu, aby bylo jasné, co chci nechat zobrazit
         context['songList'] = songList  # seznam písniček, které jdou do checklistu
         request.session['art_name'] = art_name  # aby bylo jasné, od jakého umělce bereme písničky
-
+    else:
+        context['pasted'] = False
     ## ULOŽENÍ PÍSNIČEK PŘI ZAKLIKÁNÍ V CHECKLISTU ------------------------------------------------
     chosen_ids = request.POST.getlist('checklist')
-    print(chosen_ids)
     chosen_tracks = sc.names_from_ids(data,chosen_ids).tolist()
 
     if chosen_ids:
@@ -148,7 +146,6 @@ def recommendations(request):
 
     likeList = request.POST.getlist('likeList')
     banned = request.session.get('banned')
-    print(banned)
     if likeList:
         rec_ids = request.session.get('rec_ids')
         rec_artists = request.session.get('rec_artists')
@@ -158,35 +155,11 @@ def recommendations(request):
         
     ### give recommendations
     model = request.session.get('model')
-    print(model)
-    """
-    if model == "word2vec":
-        #rec_ids = wv.w2v_recommend(input_ids,disliked=banned)
-        data_genre = sc.read_data(genre=True)
-        if banned:
-            rec_ids = sl.predict_user_list(input_ids,data_genre,randomness=slider_value,k=10,disliked=banned)
-        else:
-            rec_ids = sl.predict_user_list(input_ids,data_genre,randomness=slider_value,k=10)
-        print(rec_ids)
-    elif model == "knn":
-        recommended = knn_model.recommend_knn(input_ids, input_artists)
-        rec_ids = recommended['track_id'].tolist()
-    elif model == "als":
-        rec_ids = als.recommend_als(input_ids,disliked=banned)
-        model_name = "ALS model"
-    else:
-        data = sc.read_data()
-        rec_ids = data.sample(10)['track_id'].tolist()
-        model_name = "Random model"
-    """
-
     data_genre = sc.read_data(genre=True)
-    print(model)
     if banned:
         rec_ids = sl.predict_user_list(input_ids,data_genre,model=model,randomness=slider_value,k=10,disliked=banned)
     else:
         rec_ids = sl.predict_user_list(input_ids,data_genre,model=model,randomness=slider_value,k=10)
-    print(rec_ids)
 
     data = sc.read_data(genre=False)
     rec_songs, rec_artists = sc.idtonames(data,rec_ids)
@@ -210,15 +183,7 @@ def recommendations(request):
     request.session['chosen_songs'] = [input_songs]
 
     # vybraný model
-    if model == "word2vec":
-        model_name = "Word2Vec model"
-    elif model == "knn":
-        model_name = "KNN model"
-    elif model == "als":
-        model_name = "ALS model"
-    else:
-        model_name = "Random model"
-
+    model_name = sc.which_model(model)
     context['model_name'] = model_name
 
     ### render
@@ -231,7 +196,6 @@ def recommendations_random(request):
 
     ### give recommendations
     model = request.session.get('model')
-    print(model)
     data = sc.read_data()
     rec_ids = data.sample(10)['track_id'].tolist()
     model_name = "Random model"
